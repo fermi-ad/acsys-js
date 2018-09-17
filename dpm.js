@@ -32,7 +32,7 @@ function DPM(server, shConn) {
         msg.ref_id = ii;
         msg.drf_request = obj.reqs[ii].request;
 
-        obj.con.oneshot(obj.servicePath, msg, 1000, function() {});
+        obj.con.oneshot(obj.servicePath, msg, 1000);
     }
 
     this.addRequest = function(req, cb, ecb) {
@@ -130,7 +130,7 @@ function DPM(server, shConn) {
             const msg = new DPM_request_ClearList();
 
             msg.list_id = obj.listId;
-            obj.con.oneshot(obj.servicePath, msg, 1000, function() {});
+            obj.con.oneshot(obj.servicePath, msg, 1000);
             obj.reqs = [];
         }
     }
@@ -141,7 +141,7 @@ function DPM(server, shConn) {
 
             msg.list_id = obj.listId;
             obj.started = false;
-            obj.con.oneshot(obj.servicePath, msg, 1000, function() {});
+            obj.con.oneshot(obj.servicePath, msg, 1000);
         }
     }
 }
