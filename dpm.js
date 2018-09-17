@@ -26,7 +26,7 @@ function DPM(server, shConn) {
         if (obj.servicePath === null)
             throw('DPM: called sendRequest() when servicePath isn\'t defined');
 
-        var msg = new DPM_request_AddToList();	
+        const msg = new DPM_request_AddToList();
 
         msg.list_id = obj.listId;
         msg.ref_id = ii;
@@ -70,7 +70,7 @@ function DPM(server, shConn) {
                                  new Status(o.msg.status) +
                                  " for " + obj.reqs[o.msg.ref_id].request);
             } else if (!(o.msg instanceof DPM_reply_ListStatus)) {
-                var tmp = obj.reqs[o.msg.ref_id];
+                const tmp = obj.reqs[o.msg.ref_id];
 
                 tmp.callback(o.msg, tmp.dInfo);
             }
@@ -101,7 +101,7 @@ function DPM(server, shConn) {
             if (o.msg !== null)
                 o.msg = DPM_PROTO.unmarshal_reply({ v: o.msg, o:0 });
 
-            var loc = o.msg.serviceLocation.trim();
+            const loc = o.msg.serviceLocation.trim();
 
             console.info("DPM: Using DPM on " + loc + ".");
             obj.con.stream(obj.servicePath = "DPMD@" + loc,
@@ -117,7 +117,7 @@ function DPM(server, shConn) {
 
         obj.started = true;
         if (obj.listId !== null) {
-            var msg = new DPM_request_StartList();
+            const msg = new DPM_request_StartList();
 
             msg.list_id = obj.listId;
             msg.model = obj.model;
@@ -127,7 +127,7 @@ function DPM(server, shConn) {
 
     this.clear = function() {
         if (obj.listId !== null) {
-            var msg = new DPM_request_ClearList();
+            const msg = new DPM_request_ClearList();
 
             msg.list_id = obj.listId;
             obj.con.oneshot(obj.servicePath, msg, 1000, function() {});
@@ -137,7 +137,7 @@ function DPM(server, shConn) {
 
     this.stop = function() {
         if (obj.listId !== null && obj.started) {
-            var msg = new DPM_request_StopList();
+            const msg = new DPM_request_StopList();
 
             msg.list_id = obj.listId;
             obj.started = false;
