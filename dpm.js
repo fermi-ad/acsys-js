@@ -61,14 +61,16 @@ function DPM(server, shConn) {
             } else if (o.msg instanceof DPM_reply_DeviceInfo) {
                 obj.reqs[o.msg.ref_id].dInfo = o.msg;
             } else if (o.msg instanceof DPM_reply_Status) {
-                var tmp = obj.reqs[o.msg.ref_id];
+                const tmp = obj.reqs[o.msg.ref_id];
 
-                if (tmp.errCallback !== undefined)
-                    tmp.errCallback(o.msg);
-                else
-                    console.info("DPM: error status " +
-                                 new Status(o.msg.status) +
-                                 " for " + obj.reqs[o.msg.ref_id].request);
+                if (tmp.errCallback !== null) {
+                    if (tmp.errCallback !== undefined)
+                        tmp.errCallback(o.msg);
+                    else
+                        console.info("DPM: error status " +
+                                     new Status(o.msg.status) +
+                                     " for " + obj.reqs[o.msg.ref_id].request);
+                }
             } else if (!(o.msg instanceof DPM_reply_ListStatus)) {
                 const tmp = obj.reqs[o.msg.ref_id];
 
