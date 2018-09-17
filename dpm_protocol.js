@@ -50,12 +50,10 @@ if (DPM_PROTO === undefined) {
     };
 
     DPM_request_StartList.prototype.marshal = function (d) {
-	function countNulls() {
-	    return (this.model === null ? 1 : 0);
-	}
+        const nullFields = this.model === null ? 2 : 0;
 
 	PROTOCOL.m_content(d, [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 221, 181]);
-	PROTOCOL.m_tagged_int(0x50, d, (1 - countNulls()) * 2);
+	PROTOCOL.m_tagged_int(0x50, d, 2 - nullFields);
 	PROTOCOL.m_content(d, [18, 232, 32]);
 	PROTOCOL.m_int(d, this.list_id);
 	if (this.model !== null) {
