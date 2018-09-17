@@ -1,0 +1,144 @@
+'use strict';
+
+function DPM(server) {
+    var obj = this;
+
+    this.reqs = [];
+    this.started = false;
+    this.listId = null;
+    this.servicePath = null;
+    this.con = new ACNET();
+
+    this.con.onConnect = function (handle) {
+        discovery();
+    }
+
+    this.con.onDisconnect = function (handle) {
+        obj.servicePath = null;
+        obj.listId = null;
+    };
+
+    function sendRequest(ii) {
+        if (obj.reqs[ii] === undefined)
+            throw('DPM: called sendRequest() with bad index:' + ii);
+
+        if (obj.servicePath === null)
+            throw('DPM: called sendRequest() when servicePath isn\'t defined');
+
+        var msg = new DPM_request_AddToList();	
+
+        msg.list_id = obj.listId;
+        msg.ref_id = ii;
+        msg.drf_request = obj.reqs[ii].request;
+
+        obj.con.oneshot(obj.servicePath, msg, 1000, function() {});
+    }
+
+    this.addRequest = function(req, cb, ecb) {
+        obj.reqs.push({ request: req, callback: cb, errCallback: ecb,
+                        dInfo: undefined });
+        if (obj.listId !== null)
+            sendRequest(obj.reqs.length - 1);
+    }
+
+    function sendList() {
+        for (var ii = 0; ii < obj.reqs.length; ++ii)
+            sendRequest(ii);
+    }
+    
+    function dpmReplies(o) {
+        if (o.status.isGood()) {
+            if (o.msg !== null)
+                o.msg = DPM_PROTO.unmarshal_reply({ v: o.msg, o:0 });
+
+            if (o.msg instanceof DPM_reply_OpenList) {
+                console.info("DPM: using list id " + o.msg.list_id);
+                obj.listId = o.msg.list_id;
+                sendList();
+	        if (obj.started)
+	            obj.start();
+            } else if (o.msg instanceof DPM_reply_DeviceInfo) {
+                obj.reqs[o.msg.ref_id].dInfo = o.msg;
+            } else if (o.msg instanceof DPM_reply_Status) {
+                var tmp = obj.reqs[o.msg.ref_id];
+
+                if (tmp.errCallback !== undefined)
+                    tmp.errCallback(o.msg);
+                else
+                    console.info("DPM: error status " +
+                                 new Status(o.msg.status) +
+                                 " for " + obj.reqs[o.msg.ref_id].request);
+            } else if (!(o.msg instanceof DPM_reply_ListStatus)) {
+                var tmp = obj.reqs[o.msg.ref_id];
+
+                tmp.callback(o.msg, tmp.dInfo);
+            }
+            return true;
+        } else {
+            console.warn("DPM: received error status, " + o.status);
+            if (o.status.equals(1, -34))
+                discovery();
+            return false;
+        }
+    }
+    
+    function discovery() {
+        obj.listId = null;
+        if (server === undefined) {
+            obj.servicePath = null;
+            obj.con.oneshot("DPMD@MCAST", new DPM_request_ServiceDiscovery(),
+                            3000, discoveryReply);
+        } else {
+            console.info("DPM: Forcing use of DPM on " + loc + ".");
+            obj.con.stream(obj.servicePath = "DPMD@" + loc,
+                           new DPM_request_OpenList(), 10000, dpmReplies);
+        }
+    }
+
+    function discoveryReply(o) {
+        if (o.status.isGood()) {
+            if (o.msg !== null)
+                o.msg = DPM_PROTO.unmarshal_reply({ v: o.msg, o:0 });
+
+            var loc = o.msg.serviceLocation.trim();
+
+            console.info("DPM: Using DPM on " + loc + ".");
+            obj.con.stream(obj.servicePath = "DPMD@" + loc,
+                           new DPM_request_OpenList(), 10000, dpmReplies);
+        } else {
+            console.warn("DPM: discovery error, " + o.status + ".");
+            setTimeout(function (e) { discovery(); }, 5000);
+        }
+    }
+
+    this.start = function() {
+        obj.started = true;
+        if (obj.listId !== null) {
+            var msg = new DPM_request_StartList();
+
+            msg.list_id = obj.listId;
+            obj.con.oneshot(obj.servicePath, msg, 1000, function() {});
+        }
+    }
+
+    this.clear = function() {
+        if (obj.listId !== null) {
+            var msg = new DPM_request_ClearList();
+
+            msg.list_id = obj.listId;
+            obj.con.oneshot(obj.servicePath, msg, 1000, function() {});
+            obj.reqs = [];
+        }
+    }
+
+    this.stop = function() {
+        if (obj.listId !== null && obj.started) {
+            var msg = new DPM_request_StopList();
+
+            msg.list_id = obj.listId;
+            obj.started = false;
+            obj.con.oneshot(obj.servicePath, msg, 1000, function() {});
+        }
+    }
+}
+
