@@ -92,8 +92,8 @@ function DPM(server, shConn) {
             obj.con.oneshot("DPMD@MCAST", new DPM_request_ServiceDiscovery(),
                             3000, discoveryReply);
         } else {
-            console.info("DPM: Forcing use of DPM on " + loc + ".");
-            obj.con.stream(obj.servicePath = "DPMD@" + loc,
+            console.info("DPM: Forcing use of DPM on " + server + ".");
+            obj.con.stream(obj.servicePath = "DPMD@" + server,
                            new DPM_request_OpenList(), 10000, dpmReplies);
         }
     }
