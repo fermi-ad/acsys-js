@@ -1,14 +1,6 @@
 if (DPM_PROTO === undefined) {
     var DPM_PROTO = {};
 
-    // Define enumerations of the protocol.
-
-    DPM_PROTO.enum = {
-
-    };
-
-    // Define user-defined structures of the protocol.
-
     // Define requests of the protocol.
 
     var DPM_request_ServiceDiscovery = function () {
@@ -32,8 +24,7 @@ if (DPM_PROTO === undefined) {
     };
 
     DPM_request_AddToList.prototype.marshal = function (d) {
-	PROTOCOL.m_content(d, [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 17, 97, 81, 6]);
-	PROTOCOL.m_content(d, [18, 232, 32]);
+	PROTOCOL.m_content(d, [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 17, 97, 81, 6, 18, 232, 32]);
 	PROTOCOL.m_int(d, this.list_id);
 	PROTOCOL.m_content(d, [18, 30, 171]);
 	PROTOCOL.m_int(d, this.ref_id);
@@ -47,8 +38,7 @@ if (DPM_PROTO === undefined) {
     };
 
     DPM_request_RemoveFromList.prototype.marshal = function (d) {
-	PROTOCOL.m_content(d, [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 241, 33, 81, 4]);
-	PROTOCOL.m_content(d, [18, 232, 32]);
+	PROTOCOL.m_content(d, [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 241, 33, 81, 4, 18, 232, 32]);
 	PROTOCOL.m_int(d, this.list_id);
 	PROTOCOL.m_content(d, [18, 30, 171]);
 	PROTOCOL.m_int(d, this.ref_id);
@@ -79,8 +69,7 @@ if (DPM_PROTO === undefined) {
     };
 
     DPM_request_ClearList.prototype.marshal = function (d) {
-	PROTOCOL.m_content(d, [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 195, 9, 81, 2]);
-	PROTOCOL.m_content(d, [18, 232, 32]);
+	PROTOCOL.m_content(d, [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 195, 9, 81, 2, 18, 232, 32]);
 	PROTOCOL.m_int(d, this.list_id);
     };
 
@@ -89,8 +78,7 @@ if (DPM_PROTO === undefined) {
     };
 
     DPM_request_StopList.prototype.marshal = function (d) {
-	PROTOCOL.m_content(d, [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 83, 169, 81, 2]);
-	PROTOCOL.m_content(d, [18, 232, 32]);
+	PROTOCOL.m_content(d, [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 83, 169, 81, 2, 18, 232, 32]);
 	PROTOCOL.m_int(d, this.list_id);
     };
 
