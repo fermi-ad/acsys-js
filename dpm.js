@@ -1,22 +1,23 @@
 'use strict';
 
-function DPM(server) {
-    var obj = this;
+function DPM(server, shConn) {
+    const obj = this;
 
     this.reqs = [];
     this.started = false;
     this.listId = null;
     this.servicePath = null;
-    this.con = new ACNET();
+    this.con = shConn === undefined ? new ACNET() : shConn;
+    this.model = null;
 
-    this.con.onConnect = function (handle) {
+    this.con.notifyOnConnect(function (handle) {
         discovery();
-    }
+    });
 
-    this.con.onDisconnect = function (handle) {
+    this.con.notifyOnDisconnect(function (handle) {
         obj.servicePath = null;
         obj.listId = null;
-    };
+    });
 
     function sendRequest(ii) {
         if (obj.reqs[ii] === undefined)
@@ -45,7 +46,7 @@ function DPM(server) {
         for (var ii = 0; ii < obj.reqs.length; ++ii)
             sendRequest(ii);
     }
-    
+
     function dpmReplies(o) {
         if (o.status.isGood()) {
             if (o.msg !== null)
@@ -56,7 +57,7 @@ function DPM(server) {
                 obj.listId = o.msg.list_id;
                 sendList();
 	        if (obj.started)
-	            obj.start();
+	            obj.start(obj.model);
             } else if (o.msg instanceof DPM_reply_DeviceInfo) {
                 obj.reqs[o.msg.ref_id].dInfo = o.msg;
             } else if (o.msg instanceof DPM_reply_Status) {
@@ -81,7 +82,7 @@ function DPM(server) {
             return false;
         }
     }
-    
+
     function discovery() {
         obj.listId = null;
         if (server === undefined) {
@@ -112,12 +113,15 @@ function DPM(server) {
     }
 
     this.start = function() {
+        obj.model = arguments.length > 0 ? arguments[0] : null;
+
         obj.started = true;
         if (obj.listId !== null) {
             var msg = new DPM_request_StartList();
 
             msg.list_id = obj.listId;
-            obj.con.oneshot(obj.servicePath, msg, 1000, function() {});
+            msg.model = obj.model;
+            obj.con.oneshot(obj.servicePath, msg, 1000);
         }
     }
 
@@ -141,4 +145,3 @@ function DPM(server) {
         }
     }
 }
-
