@@ -88,130 +88,6 @@ if (DPM_PROTO === undefined) {
 	yield* PROTOCOL.m_int(this.list_id);
     };
 
-    DPM_PROTO.u_request_ServiceDiscovery = function (iter) {
-	if (PROTOCOL.u_tagged_int(0x50, iter) !== 0)
-	    throw new Error("unknown field when building DPM_request_ServiceDiscovery");
-	return new DPM_request_ServiceDiscovery();
-    };
-
-    DPM_PROTO.u_request_OpenList = function (iter) {
-	const v = new DPM_request_OpenList();
-	const fflg = new Uint8Array(0);
-	var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
-
-	while (nFlds > 0) {
-	    switch (PROTOCOL.u_tagged_int(0x10, iter)) {
-	     case -25120:
-		v.location = PROTOCOL.u_string(iter);
-		break;
-	     default:
-		throw new Error("unknown field when building DPM_request_OpenList");
-	    }
-	    nFlds -= 2;
-	}
-	return v;
-    };
-
-    DPM_PROTO.u_request_AddToList = function (iter) {
-	const v = new DPM_request_AddToList();
-	const fflg = new Uint8Array(1);
-	var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
-
-	while (nFlds > 0) {
-	    switch (PROTOCOL.u_tagged_int(0x10, iter)) {
-	     case -6112:
-		v.list_id = PROTOCOL.u_int(iter);
-		fflg[0] |= 1;
-		break;
-	     case 7851:
-		v.ref_id = PROTOCOL.u_int(iter);
-		fflg[0] |= 2;
-		break;
-	     case 25380:
-		v.drf_request = PROTOCOL.u_string(iter);
-		fflg[0] |= 4;
-		break;
-	     default:
-		throw new Error("unknown field when building DPM_request_AddToList");
-	    }
-	    nFlds -= 2;
-	}
-	if (fflg[0] !== 7)
-	    throw new Error("required fields missing when building DPM_request_AddToList");
-	return v;
-    };
-
-    DPM_PROTO.u_request_RemoveFromList = function (iter) {
-	const v = new DPM_request_RemoveFromList();
-	const fflg = new Uint8Array(1);
-	var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
-
-	while (nFlds > 0) {
-	    switch (PROTOCOL.u_tagged_int(0x10, iter)) {
-	     case -6112:
-		v.list_id = PROTOCOL.u_int(iter);
-		fflg[0] |= 1;
-		break;
-	     case 7851:
-		v.ref_id = PROTOCOL.u_int(iter);
-		fflg[0] |= 2;
-		break;
-	     default:
-		throw new Error("unknown field when building DPM_request_RemoveFromList");
-	    }
-	    nFlds -= 2;
-	}
-	if (fflg[0] !== 3)
-	    throw new Error("required fields missing when building DPM_request_RemoveFromList");
-	return v;
-    };
-
-    DPM_PROTO.u_request_StartList = function (iter) {
-	const v = new DPM_request_StartList();
-	const fflg = new Uint8Array(1);
-	var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
-
-	while (nFlds > 0) {
-	    switch (PROTOCOL.u_tagged_int(0x10, iter)) {
-	     case -6112:
-		v.list_id = PROTOCOL.u_int(iter);
-		fflg[0] |= 1;
-		break;
-	     case 24163:
-		v.model = PROTOCOL.u_string(iter);
-		break;
-	     default:
-		throw new Error("unknown field when building DPM_request_StartList");
-	    }
-	    nFlds -= 2;
-	}
-	if (fflg[0] !== 1)
-	    throw new Error("required fields missing when building DPM_request_StartList");
-	return v;
-    };
-
-    DPM_PROTO.u_request_ClearList = function (iter) {
-	const v = new DPM_request_ClearList();
-
-	if (PROTOCOL.u_tagged_int(0x50, iter) !== 2)
-	    throw new Error("required fields missing when building DPM_request_ClearList");
-	if (PROTOCOL.u_tagged_int(0x10, iter) !== -6112)
-	    throw new Error("unknown field when building DPM_request_ClearList");
-	v.list_id = PROTOCOL.u_int(iter);
-	return v;
-    }
-
-    DPM_PROTO.u_request_StopList = function (iter) {
-	const v = new DPM_request_StopList();
-
-	if (PROTOCOL.u_tagged_int(0x50, iter) !== 2)
-	    throw new Error("required fields missing when building DPM_request_StopList");
-	if (PROTOCOL.u_tagged_int(0x10, iter) !== -6112)
-	    throw new Error("unknown field when building DPM_request_StopList");
-	v.list_id = PROTOCOL.u_int(iter);
-	return v;
-    }
-
     // Define replies of the protocol.
 
     var DPM_reply_ServiceDiscovery = function () {
@@ -219,20 +95,8 @@ if (DPM_PROTO === undefined) {
 	this.serviceLocation = "";
     };
 
-    DPM_reply_ServiceDiscovery.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 205, 126, 81, 4, 18, 30, 179];
-	yield* PROTOCOL.m_int(this.load);
-	yield* [18, 17, 175];
-	yield* PROTOCOL.m_string(this.serviceLocation);
-    };
-
     var DPM_reply_OpenList = function () {
 	this.list_id = 0;
-    };
-
-    DPM_reply_OpenList.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 52, 158, 81, 2, 18, 232, 32];
-	yield* PROTOCOL.m_int(this.list_id);
     };
 
     var DPM_reply_AddToList = function () {
@@ -241,28 +105,10 @@ if (DPM_PROTO === undefined) {
 	this.status = 0;
     };
 
-    DPM_reply_AddToList.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 139, 172, 81, 6, 18, 232, 32];
-	yield* PROTOCOL.m_int(this.list_id);
-	yield* [18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 68, 84];
-	yield* PROTOCOL.m_int(this.status);
-    };
-
     var DPM_reply_RemoveFromList = function () {
 	this.list_id = 0;
 	this.ref_id = 0;
 	this.status = 0;
-    };
-
-    DPM_reply_RemoveFromList.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 244, 26, 81, 6, 18, 232, 32];
-	yield* PROTOCOL.m_int(this.list_id);
-	yield* [18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 68, 84];
-	yield* PROTOCOL.m_int(this.status);
     };
 
     var DPM_reply_StartList = function () {
@@ -270,23 +116,9 @@ if (DPM_PROTO === undefined) {
 	this.status = 0;
     };
 
-    DPM_reply_StartList.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 150, 0, 81, 4, 18, 232, 32];
-	yield* PROTOCOL.m_int(this.list_id);
-	yield* [18, 68, 84];
-	yield* PROTOCOL.m_int(this.status);
-    };
-
     var DPM_reply_ListStatus = function () {
 	this.list_id = 0;
 	this.status = 0;
-    };
-
-    DPM_reply_ListStatus.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 115, 112, 81, 4, 18, 232, 32];
-	yield* PROTOCOL.m_int(this.list_id);
-	yield* [18, 68, 84];
-	yield* PROTOCOL.m_int(this.status);
     };
 
     var DPM_reply_Status = function () {
@@ -296,47 +128,11 @@ if (DPM_PROTO === undefined) {
 	this.status = 0;
     };
 
-    DPM_reply_Status.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 214, 173, 81, 8, 18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 213, 91];
-	yield* PROTOCOL.m_int(this.timestamp);
-	yield* [18, 7, 64];
-	yield* PROTOCOL.m_int(this.cycle);
-	yield* [18, 68, 84];
-	yield* PROTOCOL.m_int(this.status);
-    };
-
     var DPM_reply_DeviceInfo = function () {
 	this.ref_id = 0;
 	this.di = 0;
 	this.name = "";
 	this.description = "";
-    };
-
-    DPM_reply_DeviceInfo.prototype.marshal = function* () {
-	const nullFields =
-	    (this.units === undefined ? 2 : 0)
-	    + (this.format_hint === undefined ? 2 : 0);
-
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 111, 237];
-	yield* PROTOCOL.m_tagged_int(0x50, 12 - nullFields);
-	yield* [18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 130, 221];
-	yield* PROTOCOL.m_int(this.di);
-	yield* [18, 147, 28];
-	yield* PROTOCOL.m_string(this.name);
-	yield* [18, 249, 44];
-	yield* PROTOCOL.m_string(this.description);
-	if (this.units !== undefined) {
-	    yield* [18, 61, 251];
-	    yield* PROTOCOL.m_string(this.units);
-	}
-	if (this.format_hint !== undefined) {
-	    yield* [18, 126, 194];
-	    yield* PROTOCOL.m_int(this.format_hint);
-	}
     };
 
     var DPM_reply_Scalar = function () {
@@ -347,38 +143,12 @@ if (DPM_PROTO === undefined) {
 	this.data = 0;
     };
 
-    DPM_reply_Scalar.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 214, 171, 81, 10, 18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 213, 91];
-	yield* PROTOCOL.m_int(this.timestamp);
-	yield* [18, 7, 64];
-	yield* PROTOCOL.m_int(this.cycle);
-	yield* [18, 68, 84];
-	yield* PROTOCOL.m_int(this.status);
-	yield* [18, 127, 56];
-	yield* PROTOCOL.m_float(this.data);
-    };
-
     var DPM_reply_ScalarArray = function () {
 	this.ref_id = 0;
 	this.timestamp = 0;
 	this.cycle = 0;
 	this.status = 0;
 	this.data = [];
-    };
-
-    DPM_reply_ScalarArray.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 89, 252, 81, 10, 18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 213, 91];
-	yield* PROTOCOL.m_int(this.timestamp);
-	yield* [18, 7, 64];
-	yield* PROTOCOL.m_int(this.cycle);
-	yield* [18, 68, 84];
-	yield* PROTOCOL.m_int(this.status);
-	yield* [18, 127, 56];
-	yield* PROTOCOL.m_array(PROTOCOL.m_float, this.data);
     };
 
     var DPM_reply_Raw = function () {
@@ -389,19 +159,6 @@ if (DPM_PROTO === undefined) {
 	this.data = new ArrayBuffer();
     };
 
-    DPM_reply_Raw.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 207, 94, 81, 10, 18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 213, 91];
-	yield* PROTOCOL.m_int(this.timestamp);
-	yield* [18, 7, 64];
-	yield* PROTOCOL.m_int(this.cycle);
-	yield* [18, 68, 84];
-	yield* PROTOCOL.m_int(this.status);
-	yield* [18, 127, 56];
-	yield* PROTOCOL.m_binary(this.data);
-    };
-
     var DPM_reply_Text = function () {
 	this.ref_id = 0;
 	this.timestamp = 0;
@@ -410,38 +167,12 @@ if (DPM_PROTO === undefined) {
 	this.data = "";
     };
 
-    DPM_reply_Text.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 143, 50, 81, 10, 18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 213, 91];
-	yield* PROTOCOL.m_int(this.timestamp);
-	yield* [18, 7, 64];
-	yield* PROTOCOL.m_int(this.cycle);
-	yield* [18, 68, 84];
-	yield* PROTOCOL.m_int(this.status);
-	yield* [18, 127, 56];
-	yield* PROTOCOL.m_string(this.data);
-    };
-
     var DPM_reply_TextArray = function () {
 	this.ref_id = 0;
 	this.timestamp = 0;
 	this.cycle = 0;
 	this.status = 0;
 	this.data = [];
-    };
-
-    DPM_reply_TextArray.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 50, 123, 81, 10, 18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 213, 91];
-	yield* PROTOCOL.m_int(this.timestamp);
-	yield* [18, 7, 64];
-	yield* PROTOCOL.m_int(this.cycle);
-	yield* [18, 68, 84];
-	yield* PROTOCOL.m_int(this.status);
-	yield* [18, 127, 56];
-	yield* PROTOCOL.m_array(PROTOCOL.m_string, this.data);
     };
 
     var DPM_reply_AnalogAlarm = function () {
@@ -458,31 +189,6 @@ if (DPM_PROTO === undefined) {
 	this.tries_now = 0;
     };
 
-    DPM_reply_AnalogAlarm.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 117, 136, 81, 22, 18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 213, 91];
-	yield* PROTOCOL.m_int(this.timestamp);
-	yield* [18, 7, 64];
-	yield* PROTOCOL.m_int(this.cycle);
-	yield* [18, 35, 76];
-	yield* PROTOCOL.m_float(this.minimum);
-	yield* [18, 226, 136];
-	yield* PROTOCOL.m_float(this.maximum);
-	yield* [18, 143, 32];
-	yield* PROTOCOL.m_bool(this.alarm_enable);
-	yield* [18, 96, 54];
-	yield* PROTOCOL.m_bool(this.alarm_status);
-	yield* [18, 74, 28];
-	yield* PROTOCOL.m_bool(this.abort);
-	yield* [18, 129, 114];
-	yield* PROTOCOL.m_bool(this.abort_inhibit);
-	yield* [18, 1, 50];
-	yield* PROTOCOL.m_int(this.tries_needed);
-	yield* [18, 43, 62];
-	yield* PROTOCOL.m_int(this.tries_now);
-    };
-
     var DPM_reply_DigitalAlarm = function () {
 	this.ref_id = 0;
 	this.timestamp = 0;
@@ -497,73 +203,10 @@ if (DPM_PROTO === undefined) {
 	this.tries_now = 0;
     };
 
-    DPM_reply_DigitalAlarm.prototype.marshal = function* () {
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 199, 155, 81, 22, 18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 213, 91];
-	yield* PROTOCOL.m_int(this.timestamp);
-	yield* [18, 7, 64];
-	yield* PROTOCOL.m_int(this.cycle);
-	yield* [18, 79, 29];
-	yield* PROTOCOL.m_int(this.nominal);
-	yield* [18, 17, 235];
-	yield* PROTOCOL.m_int(this.mask);
-	yield* [18, 143, 32];
-	yield* PROTOCOL.m_bool(this.alarm_enable);
-	yield* [18, 96, 54];
-	yield* PROTOCOL.m_bool(this.alarm_status);
-	yield* [18, 74, 28];
-	yield* PROTOCOL.m_bool(this.abort);
-	yield* [18, 129, 114];
-	yield* PROTOCOL.m_bool(this.abort_inhibit);
-	yield* [18, 1, 50];
-	yield* PROTOCOL.m_int(this.tries_needed);
-	yield* [18, 43, 62];
-	yield* PROTOCOL.m_int(this.tries_now);
-    };
-
     var DPM_reply_BasicStatus = function () {
 	this.ref_id = 0;
 	this.timestamp = 0;
 	this.cycle = 0;
-    };
-
-    DPM_reply_BasicStatus.prototype.marshal = function* () {
-	const nullFields =
-	    (this.on === undefined ? 2 : 0)
-	    + (this.ready === undefined ? 2 : 0)
-	    + (this.remote === undefined ? 2 : 0)
-	    + (this.positive === undefined ? 2 : 0)
-	    + (this.ramp === undefined ? 2 : 0);
-
-	yield* [83, 68, 68, 2, 81, 3, 20, 177, 58, 112, 58, 18, 242, 249];
-	yield* PROTOCOL.m_tagged_int(0x50, 16 - nullFields);
-	yield* [18, 30, 171];
-	yield* PROTOCOL.m_int(this.ref_id);
-	yield* [18, 213, 91];
-	yield* PROTOCOL.m_int(this.timestamp);
-	yield* [18, 7, 64];
-	yield* PROTOCOL.m_int(this.cycle);
-	if (this.on !== undefined) {
-	    yield* [18, 92, 1];
-	    yield* PROTOCOL.m_bool(this.on);
-	}
-	if (this.ready !== undefined) {
-	    yield* [18, 171, 35];
-	    yield* PROTOCOL.m_bool(this.ready);
-	}
-	if (this.remote !== undefined) {
-	    yield* [18, 228, 134];
-	    yield* PROTOCOL.m_bool(this.remote);
-	}
-	if (this.positive !== undefined) {
-	    yield* [18, 39, 22];
-	    yield* PROTOCOL.m_bool(this.positive);
-	}
-	if (this.ramp !== undefined) {
-	    yield* [18, 146, 56];
-	    yield* PROTOCOL.m_bool(this.ramp);
-	}
     };
 
     DPM_PROTO.u_reply_ServiceDiscovery = function (iter) {
@@ -1132,32 +775,6 @@ if (DPM_PROTO === undefined) {
 	    throw new Error("required fields missing when building DPM_reply_BasicStatus");
 	return v;
     };
-
-    DPM_PROTO.unmarshal_request = function (iter) {
-	PROTOCOL.validate_header(2, iter);
-	if (PROTOCOL.u_tagged_int(0x50, iter) !== 3)
-	    throw new Error("badly formed message header");
-	if (PROTOCOL.u_tagged_int(0x10, iter) !== -1321570246)
-	    throw new Error("unknown protocol type");
-	switch (PROTOCOL.u_tagged_int(0x10, iter)) {
-	 case -8230:
-	    return DPM_PROTO.u_request_ServiceDiscovery(iter);
-	 case 2076:
-	    return DPM_PROTO.u_request_OpenList(iter);
-	 case 97:
-	    return DPM_PROTO.u_request_AddToList(iter);
-	 case -3807:
-	    return DPM_PROTO.u_request_RemoveFromList(iter);
-	 case -8779:
-	    return DPM_PROTO.u_request_StartList(iter);
-	 case -15607:
-	    return DPM_PROTO.u_request_ClearList(iter);
-	 case 21417:
-	    return DPM_PROTO.u_request_StopList(iter);
-	 default:
-	    throw new Error("unknown request in protocol");
-	}
-    }
 
     DPM_PROTO.unmarshal_reply = function (iter) {
 	PROTOCOL.validate_header(2, iter);
