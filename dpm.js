@@ -122,7 +122,8 @@ function DPM(server, shConn) {
             const msg = new DPM_request_StartList();
 
             msg.list_id = obj.listId;
-            msg.model = obj.model;
+            if (obj.model !== null)
+                msg.model = obj.model;
             obj.con.oneshot(obj.servicePath, msg, 1000);
         }
     }
