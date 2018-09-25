@@ -49,8 +49,11 @@ function DPM(server, shConn) {
 
     function dpmReplies(o) {
         if (o.status.isGood()) {
-            if (o.msg !== null)
-                o.msg = DPM_PROTO.unmarshal_reply({ v: o.msg, o:0 });
+            if (o.msg !== null) {
+                const iter = new Uint8Array(o.msg.buffer, o.msg.byteOffset);
+
+                o.msg = DPM_PROTO.unmarshal_reply(iter[Symbol.iterator]());
+            }
 
             if (o.msg instanceof DPM_reply_OpenList) {
                 console.info("DPM: using list id " + o.msg.list_id);
@@ -100,8 +103,11 @@ function DPM(server, shConn) {
 
     function discoveryReply(o) {
         if (o.status.isGood()) {
-            if (o.msg !== null)
-                o.msg = DPM_PROTO.unmarshal_reply({ v: o.msg, o:0 });
+            if (o.msg !== null) {
+                const iter = new Uint8Array(o.msg.buffer, o.msg.byteOffset);
+
+                o.msg = DPM_PROTO.unmarshal_reply(iter[Symbol.iterator]());
+            }
 
             const loc = o.msg.serviceLocation.trim();
 
