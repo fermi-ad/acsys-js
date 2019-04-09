@@ -1,7 +1,15 @@
 'use strict';
 
-function DPM(server, shConn) {
+function DPM(taskAndNode, shConn) {
     const obj = this;
+
+    if (taskAndNode === undefined) {
+        this.server = taskAndNode;
+    } else if (taskAndNode.includes('@')) {
+        const [task, node] = taskAndNode.split('@');
+        this.task = task;
+        this.server = node;
+    }
 
     this.reqs = [];
     this.started = false;
@@ -59,8 +67,8 @@ function DPM(server, shConn) {
                 console.info("DPM: using list id " + o.msg.list_id);
                 obj.listId = o.msg.list_id;
                 sendList();
-	        if (obj.started)
-	            obj.start(obj.model);
+                if (obj.started)
+                    obj.start(obj.model);
             } else if (o.msg instanceof DPM_reply_DeviceInfo) {
                 obj.reqs[o.msg.ref_id].dInfo = o.msg;
             } else if (o.msg instanceof DPM_reply_Status) {
@@ -71,8 +79,8 @@ function DPM(server, shConn) {
                         tmp.errCallback(o.msg);
                     else
                         console.info("DPM: error status " +
-                                     new Status(o.msg.status) +
-                                     " for " + obj.reqs[o.msg.ref_id].request);
+                            new Status(o.msg.status) +
+                            " for " + obj.reqs[o.msg.ref_id].request);
                 }
             } else if (!(o.msg instanceof DPM_reply_ListStatus)) {
                 const tmp = obj.reqs[o.msg.ref_id];
@@ -90,14 +98,21 @@ function DPM(server, shConn) {
 
     function discovery() {
         obj.listId = null;
-        if (server === undefined) {
+        if (obj.server === undefined) {
             obj.servicePath = null;
             obj.con.oneshot("DPMD@MCAST", new DPM_request_ServiceDiscovery(),
-                            3000, discoveryReply);
+                3000, discoveryReply);
         } else {
-            console.info("DPM: Forcing use of DPM on " + server + ".");
-            obj.con.stream(obj.servicePath = "DPMD@" + server,
-                           new DPM_request_OpenList(), 10000, dpmReplies);
+            console.info("DPM: Forcing use of DPM on " + obj.server + ".");
+
+            if (obj.task === undefined) {
+                obj.con.stream(obj.servicePath = "DPMD@" + obj.server,
+                    new DPM_request_OpenList(), 10000, dpmReplies);
+            } else {
+                console.info("DPM: Forcing use of Task on " + obj.task + ".");
+                obj.con.stream(obj.servicePath = obj.task + "@" + obj.server,
+                    new DPM_request_OpenList(), 10000, dpmReplies);
+            }
         }
     }
 
@@ -112,8 +127,14 @@ function DPM(server, shConn) {
             const loc = o.msg.serviceLocation.trim();
 
             console.info("DPM: Using DPM on " + loc + ".");
-            obj.con.stream(obj.servicePath = "DPMD@" + loc,
-                           new DPM_request_OpenList(), 10000, dpmReplies);
+
+            if (obj.task !== undefined) {
+                obj.con.stream(obj.servicePath = obj.task + "@" + loc,
+                    new DPM_request_OpenList(), 10000, dpmReplies);
+            } else {
+                obj.con.stream(obj.servicePath = "DPMD@" + loc,
+                    new DPM_request_OpenList(), 10000, dpmReplies);
+            }
         } else {
             console.warn("DPM: discovery error, " + o.status + ".");
             setTimeout(function (e) { discovery(); }, 5000);
