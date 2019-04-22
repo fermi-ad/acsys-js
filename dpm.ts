@@ -297,7 +297,7 @@ export class DPM {
       await this.sendRequest(this.reqs[ii], ii);
   }
 
-  async start(model?: string): Promise<Reply<DPM_reply_StartList>> {
+  async start(model?: string): Promise<void> {
     const msg = new DPM_request_StartList();
 
     msg.model = model;
@@ -313,9 +313,9 @@ export class DPM {
     const bin = await this.con.oneshot(task, msg, 1000);
     const result = DPM.u_reply(bin);
 
-    if (result.msg && result.msg instanceof DPM_reply_StartList)
-      return result as Reply<DPM_reply_StartList>;
-    else throw new AcnetError(Status.ACNET_RPLYPACK);
+    if (result.msg instanceof DPM_reply_StartList) {
+      if (result.status.isBad) throw new AcnetError(result.status);
+    } else throw new AcnetError(Status.ACNET_RPLYPACK);
   }
 
   async clear(): Promise<void> {
