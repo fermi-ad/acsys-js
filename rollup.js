@@ -19,5 +19,6 @@ export default {
       externalHelpers: false,
       runtimeHelpers: true
     })
-  ]
+  ],
+  external: [ '@fnal/acnet', '@fnal/proto_lib' ]
 };
