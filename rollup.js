@@ -14,9 +14,6 @@ export default {
     }
   ],
   plugins: [
-    resolve({
-      browser: true
-    }),
     typescript({}),
     babel({
       exclude: ["node_modules/**"],

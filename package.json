@@ -6,7 +6,7 @@
 			"types": "dist/dpm.d.ts",
 			"scripts": {
 						"build": "node build.js && rollup -c rollup.js",
-						"clean": "rm -rf DPM.proto dist",
+						"clean": "rm -rf DPM.proto dist dpm_protocol.*",
 						"test": "echo \"Error: no test specified\" && exit 1"
 			},
 			"files": [

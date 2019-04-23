@@ -21,7 +21,7 @@ import {
   DPM_reply_DigitalAlarm,
   DPM_reply_BasicStatus,
   DPM_Replies
-} from "./dist/dpm_protocol";
+} from "./dpm_protocol";
 
 interface AnaAlarm {
   minimum: number;
