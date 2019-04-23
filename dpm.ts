@@ -281,15 +281,20 @@ export class DPM {
     req: string,
     cb: (o: DataReply, i: DeviceInfo) => boolean,
     ecb?: (e: any) => void
-  ) {
+  ): Promise<void> {
     const entry: Request = { drf2: req, callback: cb, errCallback: ecb };
 
     // FIXME: This is a race condition. We are registering the request using an index that doesn't exist yet in the array.
 
     const reply = await this.sendRequest(entry, this.reqs.length);
+    const result = DPM.u_reply(reply);
 
-    if (reply.status.isGood) this.reqs.push(entry);
-    return reply;
+    if (result.msg instanceof DPM_reply_ListStatus) {
+      const status = new Status(result.msg.status);
+
+      if (status.isGood) this.reqs.push(entry);
+      else throw new AcnetError(status);
+    } else throw new AcnetError(Status.ACNET_RPLYPACK);
   }
 
   private async sendList(): Promise<void> {
