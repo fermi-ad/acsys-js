@@ -106,19 +106,23 @@ export class DPM {
         this.reqs = [];
         this.started = false;
 
-        // TODO: The 'shConn' parameter is deprecated; we're going to redo the ACNET module to start a shared worker.
+        // TODO: The 'shConn' parameter is deprecated; we're going to redo the
+        // ACNET module to start a shared worker.
 
         this.con = shConn ? shConn : new ACNET();
         this.context = new Promise(resolve => (resolveContext = resolve));
 
-        // This creates a promise which never goes away (because the promise in the .then() call never goes away.)
+        // This creates a promise which never goes away (because the promise in
+        // the .then() call never goes away.)
 
         Promise.resolve(resolveContext).then(resolve =>
             this.connectionManager(resolve, server)
         );
     }
 
-    // Finds an available DPM for the session. Unlike the public methods, this method is used before we set up the 'context' field. Any changes to this method need to follow that constraint.
+    // Finds an available DPM for the session. Unlike the public methods, this
+    // method is used before we set up the 'context' field. Any changes to this
+    // method need to follow that constraint.
 
     private async discovery(): Promise<string> {
         const msg = new DPM_request_ServiceDiscovery();
@@ -133,7 +137,8 @@ export class DPM {
                 console.info(`DPM: Using DPM on ${loc}.`);
                 return `DPMD@${loc}`;
             } catch (e) {
-                // We received an error. Report the status and sleep for 5 seconds.
+                // We received an error. Report the status and sleep for 5
+                // seconds.
 
                 console.warn(`DPM: discovery error -- ${e}.`);
                 await new Promise(r => setTimeout(r, 5000));
@@ -141,11 +146,16 @@ export class DPM {
         }
     }
 
-    // This method returns a function that returns a DPM. If the 'server' parameter specifies a particular DPM, then the returned function simply returns it. If no preference is given, the returned function performs a service discovery.
+    // This method returns a function that returns a DPM. If the 'server'
+    // parameter specifies a particular DPM, then the returned function simply
+    // returns it. If no preference is given, the returned function performs a
+    // service discovery.
 
     private findDPM(server?: string): () => Promise<string> {
         if (server !== undefined) {
-            // If 'service' contains an '@', then it's a full, remote task specification. Otherwise it's just a node name and we have to prepend the task name.
+            // If 'service' contains an '@', then it's a full, remote task
+            // specification. Otherwise it's just a node name and we have to
+            // prepend the task name.
 
             const dpm = Promise.resolve(
                 server.includes("@") ? server : `DPMD@${server}`
@@ -160,15 +170,25 @@ export class DPM {
             };
     }
 
-    // Converts a Reply from ACNET (in which the embedded message is an ArrayBuffer) into a Reply containing a DPM reply message.
+    // Converts a Reply from ACNET (in which the embedded message is an
+    // ArrayBuffer) into a Reply containing a DPM reply message.
 
     private static u_reply(reply: Reply<ArrayBuffer>): Reply<DPM_Replies> {
         const { msg, ...copy } = reply;
 
-        // DPM returns status in one of the reply messages. If there is no message in the reply packet, then the status in the header indicates the error.
+        // DPM returns status in one of the reply messages. If there is no
+        // message in the reply packet, then the status in the header indicates
+        // the error.
 
         if (msg != undefined) {
-            // Making a copy of the reply message serves several purposes. First, it lets us coerce a Reply<ArrayBuffer> into a Reply<DPM_Replies> in a way that makes Typescript happy. Since Reply<> objects can have a missing 'msg' field and our copy doesn't include the 'msg' field, we're allowed to change its type. The second reason to copy is that the caller gave us a Reply<ArrayBuffer> and it would be rude to change it to a Reply<DPM_replies>.
+            // Making a copy of the reply message serves several purposes.
+            // First, it lets us coerce a Reply<ArrayBuffer> into a
+            // Reply<DPM_Replies> in a way that makes Typescript happy. Since
+            // Reply<> objects can have a missing 'msg' field and our copy
+            // doesn't include the 'msg' field, we're allowed to change its
+            // type. The second reason to copy is that the caller gave us a
+            // Reply<ArrayBuffer> and it would be rude to change it to a
+            // Reply<DPM_replies>.
 
             const result: Reply<DPM_Replies> = copy;
             const bin = new Uint8Array(msg, 0, msg.byteLength);
@@ -201,7 +221,13 @@ export class DPM {
                     if (msg instanceof DPM_reply_OpenList) {
                         console.info(`DPM: using list id ${msg.list_id}`);
 
-                        // FIXME: We should resolve the context *after* we set up the list with DPM. There could be pending promises to update the list of requests and we don't want them to occur before DPM is in sync with the current state. Unfortunately sendList() and start() require the context to be resolved, so we lose control of restoring DPM's state.
+                        // FIXME: We should resolve the context *after* we set
+                        // up the list with DPM. There could be pending promises
+                        // to update the list of requests and we don't want them
+                        // to occur before DPM is in sync with the current
+                        // state. Unfortunately restoreState() and start()
+                        // require the context to be resolved, so we lose
+                        // control of restoring DPM's state.
 
                         resolve({ listId: msg.list_id, task: dpm });
                         await this.sendList();
@@ -237,7 +263,11 @@ export class DPM {
                         const { ref_id, timestamp, data } = msg;
                         const { callback, dInfo } = this.reqs[ref_id];
 
-                        // Forcing Typescript to accept 'dInfo' being defined. The DPM should have sent us the device info before this message, so the summption is valid. If DPM ever breaks this, then lots of Web apps are going to complain.
+                        // Forcing Typescript to accept 'dInfo' being defined.
+                        // The DPM should have sent us the device info before
+                        // this message, so the summption is valid. If DPM ever
+                        // breaks this, then lots of Web apps are going to
+                        // complain.
 
                         callback(
                             { ref_id, timestamp, data },
@@ -251,7 +281,11 @@ export class DPM {
                         const { ref_id, timestamp, cycle, ...rest } = msg;
                         const { callback, dInfo } = this.reqs[ref_id];
 
-                        // Forcing Typescript to accept 'dInfo' being defined. The DPM should have sent us the device info before this message, so the summption is valid. If DPM ever breaks this, then lots of Web apps are going to complain.
+                        // Forcing Typescript to accept 'dInfo' being defined.
+                        // The DPM should have sent us the device info before
+                        // this message, so the summption is valid. If DPM ever
+                        // breaks this, then lots of Web apps are going to
+                        // complain.
 
                         callback(
                             { ref_id, timestamp, data: rest },
@@ -264,7 +298,8 @@ export class DPM {
                 await replies.cancel();
             }
 
-            // Reset our connection parameters so clients block until we re-connect.
+            // Reset our connection parameters so clients block until we
+            // re-connect.
 
             this.context = new Promise(r => (resolve = r));
         }
