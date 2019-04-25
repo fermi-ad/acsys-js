@@ -295,7 +295,6 @@ export class DPM {
                 }
             } catch (e) {
                 console.error(`DPM: Caught exception -- ${e}`);
-                await replies.cancel();
             }
 
             // Reset our connection parameters so clients block until we
