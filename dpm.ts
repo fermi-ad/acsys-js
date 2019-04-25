@@ -215,7 +215,7 @@ export class DPM {
             const replies = await this.con.stream(dpm, reqOpenList, 1000);
 
             try {
-                for await (let ii of replies) {
+                for await (const ii of replies) {
                     const { msg } = DPM.u_reply(ii);
 
                     if (msg instanceof DPM_reply_OpenList) {
