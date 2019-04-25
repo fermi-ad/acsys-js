@@ -94,7 +94,11 @@ interface DpmContext {
 }
 
 export class DPM {
-    private reqs: Array<Request>;
+    private stagedReqs: {
+        reqs: { [req_id: number]: Request };
+        nextRef: number;
+    };
+    private activeReqs: { [req_id: number]: Request };
     private started: boolean;
     private con: ACNET;
     private model?: string;
@@ -103,7 +107,8 @@ export class DPM {
     constructor(server?: string, shConn?: ACNET) {
         let resolveContext!: (val: DpmContext) => void;
 
-        this.reqs = [];
+        this.stagedReqs = { reqs: {}, nextRef: 1000000 };
+        this.activeReqs = {};
         this.started = false;
 
         // TODO: The 'shConn' parameter is deprecated; we're going to redo the
@@ -230,13 +235,12 @@ export class DPM {
                         // control of restoring DPM's state.
 
                         resolve({ listId: msg.list_id, task: dpm });
-                        await this.sendList();
-                        if (this.started) await this.start(this.model);
+                        await this.restoreState();
                     } else if (msg instanceof DPM_reply_DeviceInfo) {
-                        this.reqs[msg.ref_id].dInfo = msg;
+                        this.activeReqs[msg.ref_id].dInfo = msg;
                     } else if (msg instanceof DPM_reply_Status) {
                         const { ref_id, timestamp, status } = msg;
-                        const { errCallback } = this.reqs[msg.ref_id];
+                        const { errCallback } = this.activeReqs[msg.ref_id];
 
                         if (errCallback !== undefined)
                             errCallback({
@@ -249,7 +253,7 @@ export class DPM {
 
                             console.info(
                                 `DPM: error status ${s} for ${
-                                    this.reqs[msg.ref_id].drf2
+                                    this.activeReqs[msg.ref_id].drf2
                                 }`
                             );
                         }
@@ -261,7 +265,7 @@ export class DPM {
                         msg instanceof DPM_reply_TextArray
                     ) {
                         const { ref_id, timestamp, data } = msg;
-                        const { callback, dInfo } = this.reqs[ref_id];
+                        const { callback, dInfo } = this.activeReqs[ref_id];
 
                         // Forcing Typescript to accept 'dInfo' being defined.
                         // The DPM should have sent us the device info before
@@ -279,7 +283,7 @@ export class DPM {
                         msg instanceof DPM_reply_BasicStatus
                     ) {
                         const { ref_id, timestamp, cycle, ...rest } = msg;
-                        const { callback, dInfo } = this.reqs[ref_id];
+                        const { callback, dInfo } = this.activeReqs[ref_id];
 
                         // Forcing Typescript to accept 'dInfo' being defined.
                         // The DPM should have sent us the device info before
@@ -325,43 +329,66 @@ export class DPM {
         ecb?: (e: any) => void
     ): Promise<void> {
         const entry: Request = { drf2: req, callback: cb, errCallback: ecb };
+        const ref_id = this.stagedReqs.nextRef;
 
-        // FIXME: This is a race condition. We are registering the request using an index that doesn't exist yet in the array.
+        this.stagedReqs.nextRef = this.stagedReqs.nextRef + 1;
 
-        const reply = await this.sendRequest(entry, this.reqs.length);
+        const reply = await this.sendRequest(entry, ref_id);
         const result = DPM.u_reply(reply);
 
         if (result.msg instanceof DPM_reply_ListStatus) {
             const status = new Status(result.msg.status);
 
-            if (status.isGood) this.reqs.push(entry);
+            if (status.isGood) this.stagedReqs.reqs[ref_id] = entry;
             else throw new AcnetError(status);
         } else throw new AcnetError(Status.ACNET_RPLYPACK);
     }
 
-    private async sendList(): Promise<void> {
-        for (let ii = 0; ii < this.reqs.length; ++ii)
-            await this.sendRequest(this.reqs[ii], ii);
+    // Restores the state of the DPM connection.
+
+    private async restoreState(): Promise<void> {
+        // If the list was started, we re-register all the DRF2 requests in the
+        // active list and then start the list.
+
+        if (this.started) {
+            for (const ii in this.activeReqs)
+                await this.sendRequest(this.activeReqs[ii], +ii);
+            await this.start(this.model);
+        }
+
+        // Now we clear out the list on DPM in preparation of the staged
+        // requests. Since a side-effect of `clear()` is to wipe-out the local
+        // copy of the requests, we keep a copy and then restore it.
+
+        {
+            const oldState = this.stagedReqs;
+
+            await this.clear();
+            this.stagedReqs = oldState;
+        }
+
+        // Now register the staged requests to DPM.
+
+        for (const ii in this.stagedReqs.reqs)
+            await this.sendRequest(this.stagedReqs.reqs[ii], +ii);
     }
 
     async start(model?: string): Promise<void> {
+        const { listId, task } = await this.context;
         const msg = new DPM_request_StartList();
 
         msg.model = model;
-
-        const { listId, task } = await this.context;
-
-        // We update the state of the DPM object *after* we get the context values because, when reconnecting, the 'started' and 'model' fields would be used to restore the state.
-
-        this.model = model;
-        this.started = true;
         msg.list_id = listId;
 
         const bin = await this.con.oneshot(task, msg, 1000);
         const result = DPM.u_reply(bin);
 
         if (result.msg instanceof DPM_reply_StartList) {
-            if (result.status.isBad) throw new AcnetError(result.status);
+            if (result.status.isGood) {
+                this.model = model;
+                this.started = true;
+                this.activeReqs = this.stagedReqs.reqs;
+            } else throw new AcnetError(result.status);
         } else throw new AcnetError(Status.ACNET_RPLYPACK);
     }
 
@@ -379,10 +406,9 @@ export class DPM {
             if (msg.msg instanceof DPM_reply_ListStatus) {
                 const status: Status = new Status(msg.msg.status);
 
-                if (status.isGood) {
-                    this.reqs = [];
-                    return;
-                } else throw new AcnetError(status);
+                if (status.isGood)
+                    this.stagedReqs = { reqs: {}, nextRef: 1000000 };
+                else throw new AcnetError(status);
             } else throw new AcnetError(Status.ACNET_RPLYPACK);
         } else throw new AcnetError(reply.status);
     }
@@ -396,7 +422,10 @@ export class DPM {
 
             const reply = await this.con.oneshot(task, msg, 1000);
 
-            if (reply.status.isGood) this.started = false;
+            if (reply.status.isGood) {
+                this.activeReqs = {};
+                this.started = false;
+            }
         }
     }
 }
