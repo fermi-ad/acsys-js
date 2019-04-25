@@ -20,7 +20,8 @@ import {
     DPM_reply_AnalogAlarm,
     DPM_reply_DigitalAlarm,
     DPM_reply_BasicStatus,
-    DPM_Replies
+    DPM_Replies,
+    DPM_reply_AddToList
 } from "./dpm_protocol";
 
 interface AnaAlarm {
@@ -287,8 +288,8 @@ export class DPM {
 
                         // Forcing Typescript to accept 'dInfo' being defined.
                         // The DPM should have sent us the device info before
-                        // this message, so the summption is valid. If DPM ever
-                        // breaks this, then lots of Web apps are going to
+                        // this message, so the assumption is valid. If DPM ever
+                        // breaks this contract, lots of Web apps are going to
                         // complain.
 
                         callback(
@@ -336,7 +337,7 @@ export class DPM {
         const reply = await this.sendRequest(entry, ref_id);
         const result = DPM.u_reply(reply);
 
-        if (result.msg instanceof DPM_reply_ListStatus) {
+        if (result.msg instanceof DPM_reply_AddToList) {
             const status = new Status(result.msg.status);
 
             if (status.isGood) this.stagedReqs.reqs[ref_id] = entry;
