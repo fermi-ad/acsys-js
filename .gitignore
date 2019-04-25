@@ -4,3 +4,4 @@ node_modules
 .rpt2_cache
 .vscode
 dist
+dpm_protocol.*
