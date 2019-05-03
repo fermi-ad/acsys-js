@@ -388,7 +388,7 @@ export class DPM {
             if (result.status.isGood) {
                 this.model = model;
                 this.started = true;
-                this.activeReqs = this.stagedReqs.reqs;
+                this.activeReqs = {...this.stagedReqs.reqs};
             } else throw new AcnetError(result.status);
         } else throw new AcnetError(Status.ACNET_RPLYPACK);
     }
