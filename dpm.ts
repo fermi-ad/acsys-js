@@ -24,7 +24,7 @@ import {
     DPM_reply_AddToList
 } from "./dpm_protocol";
 
-interface AnaAlarm {
+export interface AnaAlarm {
     minimum: number;
     maximum: number;
     alarm_enable: boolean;
@@ -35,7 +35,7 @@ interface AnaAlarm {
     tries_now: number;
 }
 
-interface DigAlarm {
+export interface DigAlarm {
     nominal: number;
     mask: number;
     alarm_enable: boolean;
@@ -46,7 +46,7 @@ interface DigAlarm {
     tries_now: number;
 }
 
-interface BasStatus {
+export interface BasStatus {
     on?: boolean;
     ready?: boolean;
     remote?: boolean;
@@ -54,7 +54,7 @@ interface BasStatus {
     ramp?: boolean;
 }
 
-interface DataReply {
+export interface DataReply {
     ref_id: number;
     timestamp: number;
     data:
@@ -68,7 +68,7 @@ interface DataReply {
         | ArrayBuffer;
 }
 
-interface DeviceInfo {
+export interface DeviceInfo {
     di: number;
     name: string;
     description: string;
@@ -76,7 +76,7 @@ interface DeviceInfo {
     format_hint?: number;
 }
 
-interface DataStatus {
+export interface DataStatus {
     ref_id: number;
     timestamp: number;
     status: Status;
@@ -388,7 +388,7 @@ export class DPM {
             if (result.status.isGood) {
                 this.model = model;
                 this.started = true;
-                this.activeReqs = {...this.stagedReqs.reqs};
+                this.activeReqs = { ...this.stagedReqs.reqs };
             } else throw new AcnetError(result.status);
         } else throw new AcnetError(Status.ACNET_RPLYPACK);
     }
