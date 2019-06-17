@@ -36,7 +36,7 @@
     ],
     "license": "UNLICENSED",
     "dependencies": {
-        "@fnal/acnet": "^2.2.0",
+        "@fnal/acnet": "^2.2.1",
         "@fnal/proto_lib": "^2.0.4"
     },
     "devDependencies": {
@@ -45,12 +45,12 @@
         "awesome-typescript-loader": "^5.2.1",
         "babel-preset-env": "^1.7.0",
         "browserify": "^16.2.3",
-        "rollup": "^1.14.6",
+        "rollup": "^1.15.6",
         "rollup-plugin-babel": "^4.3.2",
         "rollup-plugin-commonjs": "^9.3.4",
         "rollup-plugin-node-resolve": "^4.2.4",
         "rollup-plugin-typescript2": "^0.20.1",
         "source-map-loader": "^0.2.4",
-        "typescript": "^3.5.1"
+        "typescript": "^3.5.2"
     }
 }
