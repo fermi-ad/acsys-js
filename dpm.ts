@@ -177,9 +177,9 @@ export class DPM {
     }
 
     // Converts a Reply from ACNET (in which the embedded message is an
-    // ArrayBuffer) into a Reply containing a DPM reply message.
+    // Uint8Array) into a Reply containing a DPM reply message.
 
-    private static u_reply(reply: Reply<ArrayBuffer>): Reply<DPM_Replies> {
+    private static u_reply(reply: Reply<Uint8Array>): Reply<DPM_Replies> {
         const { msg, ...copy } = reply;
 
         // DPM returns status in one of the reply messages. If there is no
@@ -188,18 +188,17 @@ export class DPM {
 
         if (msg != undefined) {
             // Making a copy of the reply message serves several purposes.
-            // First, it lets us coerce a Reply<ArrayBuffer> into a
+            // First, it lets us coerce a Reply<Uint8Array> into a
             // Reply<DPM_Replies> in a way that makes Typescript happy. Since
             // Reply<> objects can have a missing 'msg' field and our copy
             // doesn't include the 'msg' field, we're allowed to change its
             // type. The second reason to copy is that the caller gave us a
-            // Reply<ArrayBuffer> and it would be rude to change it to a
+            // Reply<Uint8Array> and it would be rude to change it to a
             // Reply<DPM_replies>.
 
             const result: Reply<DPM_Replies> = copy;
-            const bin = new Uint8Array(msg, 0, msg.byteLength);
 
-            result.msg = DPM_PROTO.unmarshal_reply(bin[Symbol.iterator]());
+            result.msg = DPM_PROTO.unmarshal_reply(msg[Symbol.iterator]());
             return result;
         } else throw new AcnetError(reply.status);
     }
@@ -312,7 +311,7 @@ export class DPM {
     private async sendRequest(
         req: Request,
         ref_id: number
-    ): Promise<Reply<ArrayBuffer>> {
+    ): Promise<Reply<Uint8Array>> {
         const msg = new DPM_request_AddToList();
 
         msg.ref_id = ref_id;
