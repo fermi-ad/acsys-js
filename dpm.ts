@@ -57,6 +57,7 @@ export interface BasStatus {
 export interface DataReply {
     ref_id: number;
     timestamp: number;
+    cycle: number;
     data:
         | number
         | string
@@ -79,6 +80,7 @@ export interface DeviceInfo {
 export interface DataStatus {
     ref_id: number;
     timestamp: number;
+    cycle: number;
     status: Status;
 }
 
@@ -239,13 +241,14 @@ export class DPM {
                     } else if (msg instanceof DPM_reply_DeviceInfo) {
                         this.activeReqs[msg.ref_id].dInfo = msg;
                     } else if (msg instanceof DPM_reply_Status) {
-                        const { ref_id, timestamp, status } = msg;
+                        const { ref_id, timestamp, cycle, status } = msg;
                         const { errCallback } = this.activeReqs[msg.ref_id];
 
                         if (errCallback !== undefined)
                             errCallback({
                                 ref_id,
                                 timestamp,
+                                cycle,
                                 status: new Status(status)
                             });
                         else {
@@ -264,7 +267,7 @@ export class DPM {
                         msg instanceof DPM_reply_Text ||
                         msg instanceof DPM_reply_TextArray
                     ) {
-                        const { ref_id, timestamp, data } = msg;
+                        const { ref_id, timestamp, cycle, data } = msg;
                         const { callback, dInfo } = this.activeReqs[ref_id];
 
                         // Forcing Typescript to accept 'dInfo' being defined.
@@ -274,7 +277,7 @@ export class DPM {
                         // complain.
 
                         callback(
-                            { ref_id, timestamp, data },
+                            { ref_id, timestamp, cycle, data },
                             dInfo as DeviceInfo
                         );
                     } else if (
@@ -292,7 +295,7 @@ export class DPM {
                         // complain.
 
                         callback(
-                            { ref_id, timestamp, data: rest },
+                            { ref_id, timestamp, cycle, data: rest },
                             dInfo as DeviceInfo
                         );
                     }
