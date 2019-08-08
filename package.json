@@ -1,6 +1,6 @@
 {
     "name": "@fnal/dpm-client",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "Provides client access to DPM",
     "main": "dist/dpm.js",
     "types": "dist/dpm.d.ts",
