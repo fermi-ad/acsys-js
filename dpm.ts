@@ -21,7 +21,8 @@ import {
     DPM_reply_DigitalAlarm,
     DPM_reply_BasicStatus,
     DPM_Replies,
-    DPM_reply_AddToList
+    DPM_reply_AddToList,
+    DPM_reply_TimedScalarArray
 } from "./dpm_protocol";
 
 export interface AnaAlarm {
@@ -265,7 +266,8 @@ export class DPM {
                         msg instanceof DPM_reply_ScalarArray ||
                         msg instanceof DPM_reply_Raw ||
                         msg instanceof DPM_reply_Text ||
-                        msg instanceof DPM_reply_TextArray
+                        msg instanceof DPM_reply_TextArray ||
+                        msg instanceof DPM_reply_TimedScalarArray
                     ) {
                         const { ref_id, timestamp, cycle, data } = msg;
                         const { callback, dInfo } = this.activeReqs[ref_id];
