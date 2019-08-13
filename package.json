@@ -1,6 +1,6 @@
 {
     "name": "@fnal/dpm-client",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "description": "Provides client access to DPM",
     "main": "dist/dpm.js",
     "types": "dist/dpm.d.ts",
@@ -36,7 +36,7 @@
     ],
     "license": "UNLICENSED",
     "dependencies": {
-        "@fnal/acnet": "^2.2.1",
+        "@fnal/acnet": "^2.2.4",
         "@fnal/proto_lib": "^2.0.4"
     },
     "devDependencies": {
