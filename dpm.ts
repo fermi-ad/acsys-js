@@ -220,7 +220,7 @@ export class DPM {
 
             // Loop through all the replies.
 
-            const replies = await this.con.stream(dpm, reqOpenList, 1000);
+            const replies = await this.con.stream(dpm, reqOpenList, 6000);
 
             try {
                 for await (const ii of replies) {

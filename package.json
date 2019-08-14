@@ -36,7 +36,7 @@
     ],
     "license": "UNLICENSED",
     "dependencies": {
-        "@fnal/acnet": "^2.2.4",
+        "@fnal/acnet": "^2.2.7",
         "@fnal/proto_lib": "^2.0.4"
     },
     "devDependencies": {
