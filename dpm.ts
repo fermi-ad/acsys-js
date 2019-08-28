@@ -109,12 +109,16 @@ export class DPM {
     private model?: string;
     private context: Promise<DpmContext>;
 
+    private shouldExit: boolean;
+    private replies?: AsyncIterableIterator<Reply<Uint8Array>>;
+
     constructor(server?: string, shConn?: ACNET) {
         let resolveContext!: (val: DpmContext) => void;
 
         this.stagedReqs = { reqs: {}, nextRef: 1000000 };
         this.activeReqs = {};
         this.started = false;
+        this.shouldExit = false;
 
         // TODO: The 'shConn' parameter is deprecated; we're going to redo the
         // ACNET module to start a shared worker.
@@ -225,6 +229,16 @@ export class DPM {
         } else throw new AcnetError(reply.status);
     }
 
+    async cancel() {
+        if (this.replies !== undefined) {
+            const reps = this.replies;
+
+            delete this.replies;
+            this.shouldExit = true;
+            reps.return!();
+        }
+    }
+
     // This is a background task that maintains the ACNET connection.
 
     private async connectionManager(
@@ -234,15 +248,15 @@ export class DPM {
         const reqOpenList = new DPM_request_OpenList();
         const disc = await this.findDPM(server);
 
-        while (true) {
+        while (!this.shouldExit) {
             const dpm = await disc();
 
             // Loop through all the replies.
 
-            const replies = await this.con.stream(dpm, reqOpenList, 6000);
+            this.replies = await this.con.stream(dpm, reqOpenList, 6000);
 
             try {
-                for await (const ii of replies) {
+                for await (const ii of this.replies) {
                     const { msg } = DPM.u_reply(ii);
 
                     if (msg instanceof DPM_reply_OpenList) {
