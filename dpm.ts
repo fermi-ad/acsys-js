@@ -2,6 +2,7 @@ import { ACNET, AcnetError, Reply, Status } from "@fnal/acnet";
 import {
     DPM_PROTO,
     DPM_request_ServiceDiscovery,
+    DPM_reply_ServiceDiscovery,
     DPM_request_OpenList,
     DPM_request_StartList,
     DPM_request_ClearList,
@@ -177,6 +178,24 @@ export class DPM {
 
                 return Promise.resolve(node);
             };
+    }
+
+    async findDPMs(dpmType?: string): Promise<DPM_reply_ServiceDiscovery[]> {
+        const result: DPM_reply_ServiceDiscovery[] = [];
+        const sdMessage = new DPM_request_ServiceDiscovery();
+        const replies = await this.con.stream(`${dpmType || 'DPMJ'}@MCAST`, sdMessage, 200);
+
+        try {
+            for await (const reply of replies) {
+                const { msg } = DPM.u_reply(reply);
+                if (msg instanceof DPM_reply_ServiceDiscovery)
+                    result.push(msg);
+            }
+        } catch (e) {
+            console.error('findDPMs Error: ', e)
+        }
+
+        return result;
     }
 
     // Converts a Reply from ACNET (in which the embedded message is an
