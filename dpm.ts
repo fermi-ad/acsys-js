@@ -273,7 +273,8 @@ export class DPM {
                         resolve({ listId: msg.list_id, task: dpm });
                         await this.restoreState();
                     } else if (msg instanceof DPM_reply_DeviceInfo) {
-                        this.activeReqs[msg.ref_id].dInfo = msg;
+                        if (this.activeReqs[msg.ref_id])
+                            this.activeReqs[msg.ref_id].dInfo = msg;
                     } else if (msg instanceof DPM_reply_Status) {
                         const { ref_id, timestamp, cycle, status } = msg;
                         const { errCallback } = this.activeReqs[msg.ref_id];
