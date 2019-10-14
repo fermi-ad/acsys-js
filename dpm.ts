@@ -339,6 +339,29 @@ export class DPM {
                             { ref_id, timestamp, cycle, data: rest },
                             dInfo as DeviceInfo
                         );
+                    } else if (msg instanceof DPM_reply_ApplySettings) {
+                        msg.status.forEach(({ ref_id, status }) => {
+                            const settingStatus = new Status(status);
+
+                            if (settingStatus.isBad) {
+                                const { errCallback } = this.activeReqs[ref_id];
+
+                                if (errCallback !== undefined)
+                                    errCallback({
+                                        ref_id,
+                                        status: new Status(status)
+                                    });
+                                else {
+                                    const s = new Status(status);
+
+                                    console.info(
+                                        `SETTING: error status ${s} for ${
+                                            this.activeReqs[ref_id].drf2
+                                        }`
+                                    );
+                    }
+                }
+                        });
                     }
                 }
             } catch (e) {
