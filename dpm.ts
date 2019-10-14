@@ -411,6 +411,60 @@ export class DPM {
         } else throw new AcnetError(Status.ACNET_RPLYPACK);
     }
 
+    private buildStruct(index: number, value: number[]): DPM_struct_ScaledSetting;
+    private buildStruct(index: number, value: string[]): DPM_struct_TextSetting;
+    private buildStruct(index: number, value: ArrayBuffer): DPM_struct_RawSetting;
+    private buildStruct(index: number, value: number[] | string[] | ArrayBuffer) {
+        let setStruct: (
+            DPM_struct_RawSetting
+            | DPM_struct_ScaledSetting
+            | DPM_struct_TextSetting
+        ) = new DPM_struct_ScaledSetting();
+
+        if (value instanceof ArrayBuffer) {
+            setStruct = new DPM_struct_RawSetting();
+        } else if (typeof value[0] === 'string') {
+            setStruct = new DPM_struct_TextSetting();
+        }
+
+        const ref_ids = Object.keys(this.activeReqs).map(Number);
+
+        setStruct.ref_id = ref_ids[index];
+        setStruct.data = value;
+
+        return setStruct;
+    }
+
+    async applySettings(settings: (string | number | ArrayBuffer)[]) {
+        const { listId, task } = await this.context;
+        const msg = new DPM_request_ApplySettings();
+
+        msg.user_name = "beau";
+        msg.list_id = listId;
+
+        msg.text_array = [];
+        msg.scaled_array = [];
+        msg.raw_array = [];
+
+        settings.forEach((setting, index) => {
+            if (typeof setting === 'string') {
+                msg.text_array!.push(this.buildStruct(index, [setting]));
+            } else if (typeof setting === 'number') {
+                msg.scaled_array!.push(this.buildStruct(index, [setting]));
+            } else if (setting instanceof ArrayBuffer) {
+                msg.raw_array!.push(this.buildStruct(index, setting));
+            }
+        });
+
+        const reply = await this.con.oneshot(task, msg, 1000);
+        const result = DPM.u_reply(reply);
+
+        if (result.msg instanceof DPM_reply_Status) {
+            const status = new Status(result.msg.status);
+            if (!status.isGood) throw new AcnetError(status);
+        } else throw new AcnetError(Status.ACNET_RPLYPACK);
+    }
+
     // Restores the state of the DPM connection.
 
     private async restoreState(): Promise<void> {
