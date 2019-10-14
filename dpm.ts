@@ -86,8 +86,8 @@ export interface DeviceInfo {
 
 export interface DataStatus {
     ref_id: number;
-    timestamp: number;
-    cycle: number;
+    timestamp?: number;
+    cycle?: number;
     status: Status;
 }
 
