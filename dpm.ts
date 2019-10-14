@@ -23,7 +23,12 @@ import {
     DPM_reply_BasicStatus,
     DPM_Replies,
     DPM_reply_AddToList,
-    DPM_reply_TimedScalarArray
+    DPM_reply_TimedScalarArray,
+    DPM_request_ApplySettings,
+    DPM_struct_RawSetting,
+    DPM_struct_TextSetting,
+    DPM_struct_ScaledSetting,
+    DPM_reply_ApplySettings
 } from "./dpm_protocol";
 
 export interface AnaAlarm {
