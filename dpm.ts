@@ -104,6 +104,7 @@ interface DpmContext {
 }
 
 export class DPM {
+    private initRef: number;
     private stagedReqs: {
         reqs: { [req_id: number]: Request };
         nextRef: number;
@@ -120,7 +121,8 @@ export class DPM {
     constructor(server?: string, shConn?: ACNET) {
         let resolveContext!: (val: DpmContext) => void;
 
-        this.stagedReqs = { reqs: {}, nextRef: 1000000 };
+        this.initRef = 1000000;
+        this.stagedReqs = { reqs: {}, nextRef: this.initRef };
         this.activeReqs = {};
         this.started = false;
         this.shouldExit = false;
@@ -359,8 +361,8 @@ export class DPM {
                                             this.activeReqs[ref_id].drf2
                                         }`
                                     );
-                    }
-                }
+                                }
+                            }
                         });
                     }
                 }
@@ -528,7 +530,7 @@ export class DPM {
                 const status: Status = new Status(msg.msg.status);
 
                 if (status.isGood)
-                    this.stagedReqs = { reqs: {}, nextRef: 1000000 };
+                    this.stagedReqs = { reqs: {}, nextRef: this.initRef };
                 else throw new AcnetError(status);
             } else throw new AcnetError(Status.ACNET_RPLYPACK);
         } else throw new AcnetError(reply.status);
