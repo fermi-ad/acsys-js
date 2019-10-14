@@ -392,7 +392,7 @@ export class DPM {
 
     async addRequest(
         req: string,
-        cb: (o: DataReply, i: DeviceInfo) => boolean,
+        cb: (o: DataReply, i: DeviceInfo) => void,
         ecb?: (e: any) => void
     ): Promise<void> {
         const entry: Request = { drf2: req, callback: cb, errCallback: ecb };
