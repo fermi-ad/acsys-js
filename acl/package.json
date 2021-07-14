@@ -4,7 +4,10 @@
   "description": "",
   "main": "acl.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cp": "cp acl_protocol.* dist/",
+    "build:proto": "node build.js",
+    "build": "npm run build:proto && tsc -p tsconfig.json && npm run cp",
+    "clean": "rm -rf ACL.proto dist acl_protocol.*"
   },
   "repository": {
     "type": "git",
