@@ -20,5 +20,8 @@
   "dependencies": {
     "@fnal/acnet": "file:../acnet",
     "@fnal/proto_lib": "file:../proto_lib"
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1"
   }
 }
