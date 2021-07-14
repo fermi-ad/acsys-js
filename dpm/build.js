@@ -11,7 +11,7 @@ if (!fs.existsSync(targetDir)) {
 
 exec(
   `curl -Rso DPM.proto 'https://www-ad.fnal.gov/cgi-cvs/cvsweb.cgi/~checkout~/mecca/uls/ul_dpm_protocol/DPM.proto?rev=HEAD;content-type=text%2Fplain' \
-&& pc -v -l javascript --js-dts DPM.proto`,
+&& node_modules/@fnal/protocol-compiler/pc -v -l javascript --js-dts DPM.proto`,
   error => {
     if (error) console.error(error);
   }

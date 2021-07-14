@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "ES2018",
+        "moduleResolution": "node",
+        "strict": true,
+        "declaration": true,
+        "declarationDir": "dist",
+        "lib": ["dom", "es2018", "es2018.asynciterable"]
+    }
+}

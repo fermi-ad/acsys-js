@@ -1,9 +1,9 @@
 # DPM for Javascript
 
-### Build
+## Build
 
 `npm run build`
 
-### Publish
+## Publish
 
 `npm publish`

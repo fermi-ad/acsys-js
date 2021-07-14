@@ -1,0 +1,58 @@
+{
+    "name": "@fnal/dpm-client",
+    "version": "2.3.3",
+    "description": "Provides client access to DPM",
+    "main": "dist/dpm.mjs",
+    "module": "dist/dpm.mjs",
+    "browser": "dist/dpm.js",
+    "types": "dist/dpm.d.ts",
+    "scripts": {
+        "cp": "cp dpm_protocol.* dist/",
+        "build": "node build.js && rollup -c rollup.js && npm run cp",
+        "clean": "rm -rf DPM.proto dist dpm_protocol.*"
+    },
+    "files": [
+        "dist/*"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "ssh://p-acsys-dpm@cdcvs.fnal.gov/cvs/projects/acsys-dpm-js"
+    },
+    "publishConfig": {
+        "registry": "http://adrfads.fnal.gov:4873"
+    },
+    "keywords": [
+        "DPM",
+        "ACNET"
+    ],
+    "author": "Rich Neswold",
+    "contributors": [
+        {
+            "name": "Beau Harrison",
+            "email": "beau@fnal.gov"
+        },
+        {
+            "name": "Rich Neswold",
+            "email": "neswold@fnal.gov"
+        }
+    ],
+    "license": "UNLICENSED",
+    "dependencies": {
+        "@fnal/acnet": "file:../acnet",
+        "@fnal/proto_lib": "file:../proto_lib"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.5.5",
+        "@fnal/protocol-compiler": "^1.3.8",
+        "awesome-typescript-loader": "^5.2.1",
+        "babel-preset-env": "^1.7.0",
+        "browserify": "^16.5.0",
+        "rollup": "^1.20.3",
+        "rollup-plugin-babel": "^4.3.3",
+        "rollup-plugin-commonjs": "^9.3.4",
+        "rollup-plugin-node-resolve": "^4.2.4",
+        "rollup-plugin-typescript2": "^0.20.1",
+        "source-map-loader": "^0.2.4",
+        "typescript": "^3.6.2"
+    }
+}
