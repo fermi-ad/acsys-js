@@ -8,7 +8,7 @@
     "types": "dist/acnet.d.ts",
     "scripts": {
         "test": "node_modules/rollup/dist/bin/rollup -c rollup.js",
-        "build": "npm run build:node && npm run build:browser",
+        "build": "tsc",
         "build:node": "rollup -c rollup.node.js",
         "build:browser": "rollup -c rollup.browser.js",
         "clean": "rm -r dist",
@@ -39,6 +39,10 @@
         {
             "name": "Rich Neswold",
             "email": "neswold@fnal.gov"
+        },
+        {
+            "name": "Julian Badillo",
+            "email": "jbadillo@fnal.gov"
         }
     ],
     "license": "UNLICENSED",
