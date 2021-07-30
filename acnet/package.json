@@ -58,7 +58,8 @@
     },
     "dependencies": {
         "@types/events": "^3.0.0",
-        "@types/websocket": "0.0.40",
-        "websocket": "^1.0.29"
+        "@types/ws": "^7.4.7",
+        "isomorphic-ws": "^4.0.1",
+        "ws": "^7.5.3"
     }
 }

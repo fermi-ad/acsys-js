@@ -1,3 +1,5 @@
+import ISOWebSocket from 'isomorphic-ws'
+import {CloseEvent, MessageEvent} from 'ws';
 // This namespace groups together RAD50 manipulation functions. We don't want
 // the end-user to know we're using RAD50 or to give them access to these
 // functions since it complicates things so they're aren't exported.
@@ -363,7 +365,7 @@ export class ACNET {
             reject: RejectReply;
         };
     };
-    private socket?: WebSocket;
+    private socket?: ISOWebSocket;
 
     private static bldNak: (s: Status) => ArrayBuffer = (() => {
         const nak = new ArrayBuffer(6);
@@ -416,7 +418,7 @@ export class ACNET {
             }
         };
 
-        this.socket = new WebSocket(getHost(), "acnet-client");
+        this.socket = new ISOWebSocket(getHost(), "acnet-client");
         this.socket.binaryType = "arraybuffer";
 
         this.socket.onclose = (event: CloseEvent) => {
