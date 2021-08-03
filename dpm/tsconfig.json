@@ -10,5 +10,5 @@
         "lib": ["dom", "es2018", "es2018.asynciterable"],
         "esModuleInterop": true
     },
-    "files": ["acl.ts", "acl_protocol.js"]
+    "files": ["dpm.ts", "dpm_protocol.js"]
 }

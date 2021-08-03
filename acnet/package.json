@@ -7,14 +7,9 @@
     "browser": "dist/acnet.js",
     "types": "dist/acnet.d.ts",
     "scripts": {
-        "test": "node_modules/rollup/dist/bin/rollup -c rollup.js",
         "build": "tsc",
-        "build:node": "rollup -c rollup.node.js",
-        "build:browser": "rollup -c rollup.browser.js",
-        "clean": "rm -r dist",
-        "start": "rollup -c rollup.node.js -w",
-        "prepare": "npm run build",
-        "staticPush": "npm run prepare && node staticPush.js"
+        "clean": "shx rm -r dist",
+        "staticPush": "npm run build && node staticPush.js"
     },
     "files": [
         "dist/*"
@@ -46,24 +41,19 @@
         }
     ],
     "license": "UNLICENSED",
-    "devDependencies": {
-        "@babel/core": "^7.5.5",
-        "awesome-typescript-loader": "^5.2.1",
-        "babel-preset-env": "^1.7.0",
-        "babel-preset-react": "^6.24.1",
-        "browserify": "^16.5.0",
-        "rollup": "^1.19.4",
-        "rollup-plugin-babel": "^4.3.3",
-        "rollup-plugin-commonjs": "^9.3.4",
-        "rollup-plugin-node-resolve": "^4.2.4",
-        "rollup-plugin-typescript2": "^0.20.1",
-        "source-map-loader": "^0.2.4",
-        "typescript": "^3.5.3"
-    },
     "dependencies": {
         "@types/events": "^3.0.0",
         "@types/ws": "^7.4.7",
         "isomorphic-ws": "^4.0.1",
         "ws": "^7.5.3"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.5.5",
+        "awesome-typescript-loader": "^5.2.1",
+        "babel-preset-env": "^1.7.0",
+        "babel-preset-react": "^6.24.1",
+        "shx": "^0.3.3",
+        "source-map-loader": "^0.2.4",
+        "typescript": "^4.3.5"
     }
 }

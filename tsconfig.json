@@ -1,23 +1,14 @@
 {
     "compilerOptions": {
         "target": "ES2018",
-        "module": "ESNext",
-        "strict": true,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "outDir": "./dist/esm",
-        "baseUrl": ".",
-        "paths": {
-            "@fnal/acl": ["acl/acl"], // This mapping is relative to "baseUrl"
-            "@fnal/acnet": ["acnet/acnet"], // This mapping is relative to "baseUrl"
-            "@fnal/dpm-client": ["dpm/dpm"], // This mapping is relative to "baseUrl"
-            "@fnal/proto_lib": ["proto_lib/proto_lib"], // This mapping is relative to "baseUrl"
-        },
+        "moduleResolution": "node",
         "allowJs": true,
+        "strict": true,
+        "declaration": true,
+        "outDir": "dist",
+        "declarationDir": "dist",
+        "lib": ["dom", "es2018", "es2018.asynciterable"],
+        "esModuleInterop": true,
     },
-    "include": [
-        "./main.ts",
-        "./**/*.ts",
-    ],
-    "declaration": true
+    "files": ["main.ts"]
 }

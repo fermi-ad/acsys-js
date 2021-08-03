@@ -1,0 +1,239 @@
+# Protocol for communicating with the acld server
+# (comment to force rebuild of the library) 
+
+struct Header
+    {
+    string requestorName;
+    int32 requestorNode;
+    }
+
+# Common request information to execute ACL code
+
+struct ScriptInfo
+    {
+    string ACLCode;
+    string defaultDataEvent;
+    bool noStaleErrors;
+    bool handleArrayDevices;
+    bool noSettings;
+    bool isPersistent;
+    bool wantImmediateReply;
+    optional string substituteDevices[];
+    optional string substituteStrings[];
+    optional string returnSymbols[];
+    }
+
+request ExecuteDBFile
+    {
+    Header header;
+    ScriptInfo scriptInfo;
+    }
+
+request ExecuteFlatFile
+    {
+    Header header;
+    ScriptInfo scriptInfo;
+    }
+
+request ExecuteCode
+    {
+    Header header;
+    ScriptInfo scriptInfo;
+    }
+
+request ExecuteDBFileMultReply
+    {
+    Header header;
+    string executeDataEvent;
+    ScriptInfo scriptInfo;
+    }
+
+request ExecuteFlatFileMultReply
+    {
+    Header header;
+    string executeDataEvent;
+    ScriptInfo scriptInfo;
+    }
+
+request ExecuteCodeMultReply
+    {
+    Header header;
+    string executeDataEvent;
+    ScriptInfo scriptInfo;
+    }
+
+# Common request information to execute ACL code using generic arguments
+
+struct ScriptInfoGenericArgs
+    {
+    string ACLCode;
+    string defaultDataEvent;
+    bool noStaleErrors;
+    bool handleArrayDevices;
+    bool noSettings;
+    bool isPersistent;
+    bool wantImmediateReply;
+    optional string startDataEvent;
+    optional string arguments[];
+    optional string returnSymbols[];
+    }
+
+request ExecuteDBFileGenericArgs
+    {
+    Header header;
+    ScriptInfoGenericArgs scriptInfo;
+    }
+
+request ExecuteFlatFileGenericArgs
+    {
+    Header header;
+    ScriptInfoGenericArgs scriptInfo;
+    }
+
+request ExecuteCodeGenericArgs
+    {
+    Header header;
+    ScriptInfoGenericArgs scriptInfo;
+    }
+
+struct ReturnValue
+    {
+    string name;
+    string value;
+    }
+
+reply ExecuteScript
+    {
+    Header header;
+    int32 status;
+    int32 numSuppressedSettings;
+    int32 startTime;
+    int32 endTime;
+    optional ReturnValue returnValue[];
+    }
+
+reply ExecuteScriptImmediateReply
+    {
+    Header header;
+    int32 status;
+    }
+
+request GetAcldVersion
+    {
+    }
+
+reply GetAcldVersionReply
+    {
+    int32 status;
+    string version;
+    }
+
+request GetNumScripts
+    {
+    }
+
+reply GetNumScriptsReply
+    {
+    int32 status;
+    int32 numScripts;
+    int32 numCancelledScripts;
+    }
+
+request KillScript
+    {
+    Header header;
+    string ACLCode;
+    }
+
+reply KillScriptReply
+    {
+    int32 status;
+    }
+
+request KillMyScripts
+    {
+    Header header;
+    }
+
+reply KillMyScriptsReply
+    {
+    int32 status;
+    int32 numKilled;
+    }
+
+request KillAllScripts
+    {
+    Header header;
+    }
+
+reply KillAllScriptsReply
+    {
+    int32 status;
+    int32 numKilled;
+    }
+
+request UpdateClientInfo
+    {
+    }
+
+request CommandHelp
+    {
+    Header header;
+    bool wantOneline;
+    string commandName;
+    }
+
+reply CommandHelpReply
+    {
+    int32 status;
+    string helpStrings[];
+    }
+
+request FunctionHelp
+    {
+    Header header;
+    bool wantOneline;
+    string functionName;
+    }
+
+reply FunctionHelpReply
+    {
+    int32 status;
+    string helpStrings[];
+    }
+
+ExecuteDBFile -> single ExecuteScript | single ExecuteScriptImmediateReply;
+
+ExecuteFlatFile -> single ExecuteScript | single ExecuteScriptImmediateReply;
+
+ExecuteCode -> single ExecuteScript | single ExecuteScriptImmediateReply;
+
+ExecuteDBFileMultReply -> multiple ExecuteScript | single ExecuteScriptImmediateReply;
+
+ExecuteFlatFileMultReply -> multiple ExecuteScript | single ExecuteScriptImmediateReply;
+
+ExecuteCodeMultReply -> multiple ExecuteScript | single ExecuteScriptImmediateReply;
+
+ExecuteDBFileGenericArgs -> single ExecuteScript | single ExecuteScriptImmediateReply;
+
+ExecuteFlatFileGenericArgs -> single ExecuteScript | single ExecuteScriptImmediateReply;
+
+ExecuteCodeGenericArgs -> single ExecuteScript | single ExecuteScriptImmediateReply;
+
+GetAcldVersion -> single GetAcldVersionReply;
+
+GetNumScripts -> single GetNumScriptsReply;
+
+KillScript -> single KillScriptReply;
+
+KillMyScripts -> single KillMyScriptsReply;
+
+KillAllScripts -> single KillAllScriptsReply;
+
+UpdateClientInfo -> nothing;
+
+CommandHelp -> single CommandHelpReply;
+
+FunctionHelp -> single FunctionHelpReply;
+
+# end of Acld protocol definitions

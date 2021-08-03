@@ -3,5 +3,3 @@ node_modules
 .rpt2_cache
 .vscode
 dist
-*_protocol*
-*.proto
