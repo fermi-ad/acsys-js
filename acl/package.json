@@ -3,11 +3,15 @@
     "version": "1.0.0",
     "description": "",
     "main": "acl.js",
+    "types": "acl.d.ts",
     "scripts": {
         "build": "tsc",
         "build:proto": "node build.js",
         "clean": "shx rm -rf ./dist"
     },
+    "files": [
+        "dist"
+    ],
     "repository": {
         "type": "git",
         "url": "ssh://p-acld@cdcvs.fnal.gov/cvs/projects/acld-js"

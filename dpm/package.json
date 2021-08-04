@@ -1,10 +1,8 @@
 {
     "name": "@fnal/dpm-client",
-    "version": "2.3.3",
+    "version": "2.3.4",
     "description": "Provides client access to DPM",
-    "main": "dist/dpm.mjs",
-    "module": "dist/dpm.mjs",
-    "browser": "dist/dpm.js",
+    "main": "dist/dpm.js",
     "types": "dist/dpm.d.ts",
     "scripts": {
         "build": "tsc",
@@ -12,7 +10,7 @@
         "clean": "shx rm -rf ./dist"
     },
     "files": [
-        "dist/*"
+        "dist"
     ],
     "repository": {
         "type": "git",

@@ -12,7 +12,7 @@
         "staticPush": "npm run build && node staticPush.js"
     },
     "files": [
-        "dist/*"
+        "dist"
     ],
     "repository": {
         "type": "git",

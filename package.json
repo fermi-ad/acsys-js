@@ -2,23 +2,31 @@
     "name": "@fnal/acsys",
     "version": "1.0.0",
     "description": "",
-    "main": "./dist/cjs/main.js",
-    "module": "./dist/esm/main.js",
-    "exports": "./dist/cjs/main.js",
+    "main": "./dist/main.js",
+    "browser": "./dist/main.js",
+    "types": "./dist/main.d.ts",
     "files": [
-        "./dist/"
+        "dist"
     ],
     "dependencies": {
         "@fnal/dpm-client": "file:dpm"
     },
+    "subPackages": [
+        "proto_lib",
+        "acnet",
+        "acl",
+        "dpm"
+    ],
     "devDependencies": {
         "shx": "^0.3.3",
+        "subpackage": "^1.1.0",
         "typescript": "^4.3.5"
     },
     "scripts": {
-        "clean": "shx rm -rf ./dist",
-        "build": "tsc",
-        "tsc:all": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json"
+        "clean": "subpkg run clean && shx rm -rf ./dist",
+        "tsc:all": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+        "postinstall": "subpkg install",
+        "build": "subpkg run build && tsc"
     },
     "repository": {
         "type": "git",
@@ -29,7 +37,12 @@
     },
     "keywords": [],
     "author": "Beau Harrison <beau@fnal.gov>",
-    "contributors": ["Julian Badillo <jbadillo@fnal.gov>"],
+    "contributors": [
+        {
+            "name": "Julian Badillo",
+            "email": "jbadillo@fnal.gov"
+        }
+    ],
     "license": "UNLICENSED",
     "type": "module"
 }

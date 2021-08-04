@@ -3,3 +3,10 @@ node_modules
 .rpt2_cache
 .vscode
 dist
+package-lock.json
+package.json
+README.md
+acl/package.json
+dpm/package-lock.json
+dpm/package.json
+proto_lib/package.json
