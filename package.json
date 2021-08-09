@@ -24,12 +24,14 @@
     "devDependencies": {
         "shx": "^0.3.3",
         "subpackage": "^1.1.0",
-        "typescript": "^4.3.5"
+        "typescript": "^4.3.5",
+        "parcel-bundler": "^1.12.5"
     },
     "scripts": {
         "clean": "subpkg run clean && shx rm -rf ./dist",
         "tsc:all": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
         "postinstall": "subpkg install",
+        "bundle": "parcel build main.ts -o dist/bundle.js",
         "build": "subpkg run build && tsc"
     },
     "repository": {
