@@ -1,9 +1,9 @@
 {
     "name": "@fnal/acnet",
-    "version": "2.2.8",
+    "version": "2.3.0",
     "description": "The ACNET service takes a message and bundles it into the ACNET protocol.",
-    "main": "dist/acnet.mjs",
-    "module": "dist/acnet.mjs",
+    "main": "dist/acnet.js",
+    "module": "dist/acnet.js",
     "browser": "dist/acnet.js",
     "types": "dist/acnet.d.ts",
     "scripts": {
@@ -55,5 +55,6 @@
         "shx": "^0.3.3",
         "source-map-loader": "^0.2.4",
         "typescript": "^4.3.5"
-    }
+    },
+    "type": "module"
 }

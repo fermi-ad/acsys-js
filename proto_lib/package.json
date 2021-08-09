@@ -2,8 +2,8 @@
     "name": "@fnal/proto_lib",
     "version": "2.0.5",
     "description": "Core library for protocol compiler generated libraries",
-    "main": "dist/proto_lib.mjs",
-    "module": "dist/proto_lib.mjs",
+    "main": "dist/proto_lib.js",
+    "module": "dist/proto_lib.js",
     "browser": "dist/proto_lib.js",
     "types": "dist/proto_lib.d.ts",
     "scripts": {
@@ -45,5 +45,6 @@
         "typescript": "^4.3.5",
         "source-map-loader": "^0.2.4"
     },
-    "dependencies": {}
+    "dependencies": {},
+    "type": "module"
 }

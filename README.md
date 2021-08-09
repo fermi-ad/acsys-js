@@ -27,10 +27,18 @@ dpm.addRequest(`M:OUTTMP`,
 dpm.start();
 ```
 
-### From Browser Script
-TODO write instructions
+### From Browser 
+You can use this library from the browser either by:
+- Linking to the bundled version, or.
+- Using browser module resolution for javascript in your javascript project.
+
+
+### Using the Bundled Version
+
+Add the ```bundle.js``` script in your javascript / html.
+
 ```html
-<script src="dpm.js"></script>
+<script src="bundle.js"></script>
 <script>
 const dpm = new DPM();
     dpm.addRequest(`M:OUTTMP`,
@@ -46,7 +54,11 @@ const dpm = new DPM();
     dpm.start();
 </script>
 ```
-TODO use parcel
+
+### Using as a module from browser
+You can use browser resolution by using a library like ```browserify``` or ```bundle```.
+
+TODO write example.
 
 ## Building
 To install dependencies on all subpackages run:
@@ -62,5 +74,5 @@ npm run build
 ```
 
 ## Pending
-- Figure out why installing it doesn't load dependencies beyond.
+
 - Figure out why `pack` doesn't include sub-packages.

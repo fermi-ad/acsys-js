@@ -10,3 +10,4 @@ acl/package.json
 dpm/package-lock.json
 dpm/package.json
 proto_lib/package.json
+*.tgz

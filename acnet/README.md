@@ -11,7 +11,7 @@ To make changes to this project you will need to have [NodeJS](https://nodejs.or
 There are a series of scripts defined in the `package.json` file that perform different pieces of the build process.
 
 - `npm run build` will build both the browser and node versions.
-- `npm run staticPush` will run a build and then run the `staticPush.js` script to create a versioned file on Chablis.
+- `npm run staticPush` will run a build and then run the `staticPush.js` script to create a versioned file on Chablis. (Only UNIX).
 - `npm run clean` will remove the ./dist directory.
 
 ## Constructor
@@ -48,6 +48,3 @@ const con = new ACNET();
 ## Recent Changes
 
 * v2.2.1 -- Internal change to reduce copying data from incoming messages.
-
-## TODO
-- Fix entrypoints on package.json

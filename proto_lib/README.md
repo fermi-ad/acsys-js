@@ -9,13 +9,23 @@ the applications uses protocol messages.)
 ## Build
 ```npm run build```
 
+
 ## Get source proto_lib
 
-```npm run getsource``` 
+On Unix:
+
+```bash
+npm run getsource
+``` 
 
 Or get it manually from: `https://cdcvs.fnal.gov/redmine/projects/protocol-compiler/repository/revisions/master/raw/proto_lib.js`
 
 Save it as `proto_lib.ts`
 
-## TODO
-- Fix entrypoints on package.json
+
+## Push to Chablis
+On Unix:
+
+```bash
+npm run staticPush
+```

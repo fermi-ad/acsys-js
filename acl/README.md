@@ -5,6 +5,9 @@
 
 ## Rebuild protocol files
 To rebuild protocol files you need to install `@fnal/protocol-compiler` using AD registry.
+
+On Unix:
+
 ```bash
 npm i -D @fnal/protocol-compiler --registry=http://adrfads.fnal.gov:4873/
 ```
@@ -22,6 +25,3 @@ You can do this manually:
   node_modules/@fnal/protocol-compiler/pc -v -l javascript --js-dts ACL.proto
   ```
 - This should generate `acl_protocol.js` and a corresponding `acl_protocol.d.ts`
-
-## TODO
-- Fix entry points in packange.json

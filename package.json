@@ -6,7 +6,11 @@
     "browser": "./dist/main.js",
     "types": "./dist/main.d.ts",
     "files": [
-        "dist"
+        "dist",
+        "acl/dist",
+        "acnet/dist",
+        "dpm/dist",
+        "proto_lib/dist"
     ],
     "dependencies": {
         "@fnal/dpm-client": "file:dpm"
