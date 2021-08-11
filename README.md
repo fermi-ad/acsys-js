@@ -1,4 +1,4 @@
-# ACSys JavaScript DPM Client
+# ACSys JavaScript DPM and ACL Clients
 
 `acsys` is the interface to Fermilab data acquisition and control.
 
@@ -9,7 +9,7 @@
 ```bash
 npm install --registry http://adrfads.fnal.gov:4873 @fnal/acsys
 ```
-## Usage
+## DPM Usage
 ### From Node.js Script
 
 ```javascript
@@ -34,7 +34,8 @@ You can use this library from the browser either by:
 - Linking to the bundled version.
 
 ### Using as a module from browser
-You can use browser resolution by using a library like ```parcel``` or ```browserify``` in your project.
+You can use browser resolution when building a ```React``` front-end application, or 
+by using a library like ```parcel``` or ```browserify``` in your project.
 
 Start by installing from Fermilab registry:
 
@@ -74,11 +75,12 @@ dependencies and let's you use intelli-sense code completion.
 
 ### Using the Bundled Version
 
-Add the ```bundle.js``` script in your javascript / html.
+Add the ```bundle.js``` script in your html, and use the global variable ```acsys```:
 
 ```html
 <script src="bundle.js"></script>
 <script>
+const DPM = acsys.DPM;
 const dpm = new DPM();
     dpm.addRequest(`M:OUTTMP`,
         (dataReply, deviceInfo) => {
@@ -90,6 +92,47 @@ const dpm = new DPM();
     );
 
     dpm.start();
+</script>
+```
+
+## ACL Usage
+
+You can also use ```ACL``` library in the same ways as the ```DPM``` library.
+
+
+### From Node.js Script
+
+```javascript
+import {ACL} from '@fnal/acsys';
+const acl = new ACL();
+// use acl object
+
+```
+
+### Using as a module from browser
+
+
+```bash
+npm install --registry http://adrfads.fnal.gov:4873 @fnal/acsys
+```
+Import as a module on your javascript file:
+
+```javascript
+//index.js
+import {ACL} from '@fnal/acsys';
+const acl = new ACL();
+```
+
+### Using the Bundled Version
+
+Add the ```bundle.js``` script and use the global variable ```acsys```:
+
+```html
+<script src="bundle.js"></script>
+<script>
+const ACL = acsys.ACL;
+const acl = new ACL();
+// use the acl object
 </script>
 ```
 

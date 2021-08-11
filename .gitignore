@@ -6,3 +6,4 @@ dist
 README.md
 *.tgz
 .cache
+.parcel-cache

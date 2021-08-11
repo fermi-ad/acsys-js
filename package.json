@@ -1,9 +1,8 @@
 {
     "name": "@fnal/acsys",
     "version": "1.0.0",
-    "description": "",
+    "description": "DPM Client for Javascript + ACNET Libraries",
     "main": "./dist/main.js",
-    "browser": "./dist/main.js",
     "types": "./dist/main.d.ts",
     "files": [
         "dist",
@@ -13,7 +12,8 @@
         "proto_lib/dist"
     ],
     "dependencies": {
-        "@fnal/dpm-client": "file:dpm"
+        "@fnal/dpm-client": "file:dpm",
+        "@fnal/acl": "file:acl"
     },
     "subPackages": [
         "proto_lib",
@@ -22,16 +22,15 @@
         "dpm"
     ],
     "devDependencies": {
+        "parcel-bundler": "^1.12.5",
         "shx": "^0.3.3",
         "subpackage": "^1.1.0",
-        "typescript": "^4.3.5",
-        "parcel-bundler": "^1.12.5"
+        "typescript": "^4.3.5"
     },
     "scripts": {
         "clean": "subpkg run clean && shx rm -rf ./dist",
-        "tsc:all": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
         "postinstall": "subpkg install",
-        "bundle": "parcel build main.ts -o dist/bundle.js",
+        "bundle": "parcel build main.ts -o dist/bundle.js --global acsys",
         "build": "subpkg run build && tsc"
     },
     "repository": {

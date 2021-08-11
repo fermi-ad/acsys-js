@@ -2,8 +2,8 @@
     "name": "@fnal/acl",
     "version": "1.1.0",
     "description": "",
-    "main": "acl.js",
-    "types": "acl.d.ts",
+    "main": "dist/acl.js",
+    "types": "dist/acl.d.ts",
     "scripts": {
         "build": "tsc",
         "build:proto": "node build.js",
