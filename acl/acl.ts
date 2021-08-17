@@ -6,7 +6,7 @@ import {
     ACL_request_ExecuteCode,
     ACL_struct_Header,
     ACL_struct_ReturnValue
-} from "./acl_protocol";
+} from "./acl_protocol.js";
 
 type ACL_reply = {
     status: Status
@@ -82,9 +82,9 @@ export class ACL {
             settings: boolean
             persistent: boolean
             wantImmediateReply: boolean
-            substituteDevices: null
-            substituteStrings: null
-            returnSymbols: null
+            substituteDevices: undefined
+            substituteStrings: undefined
+            returnSymbols: undefined
         } = {
             defaultDataEvent: "",
             staleErrors: true,
@@ -92,9 +92,9 @@ export class ACL {
             settings: true,
             persistent: false,
             wantImmediateReply: false,
-            substituteDevices: null,
-            substituteStrings: null,
-            returnSymbols: null
+            substituteDevices: undefined,
+            substituteStrings: undefined,
+            returnSymbols: undefined
         }
     ) {
         if (cb === undefined) {

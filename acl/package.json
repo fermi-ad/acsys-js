@@ -1,7 +1,7 @@
 {
     "name": "@fnal/acl",
     "version": "1.1.0",
-    "description": "",
+    "description": "Provides access to ACL functionality.",
     "main": "dist/acl.js",
     "types": "dist/acl.d.ts",
     "scripts": {
@@ -16,7 +16,7 @@
         "type": "git",
         "url": "ssh://p-acld@cdcvs.fnal.gov/cvs/projects/acld-js"
     },
-    "keywords": [],
+    "keywords": ["ACL", "ACNET"],
     "author": "",
     "license": "ISC",
     "type": "module",
