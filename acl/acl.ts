@@ -74,6 +74,8 @@ export class ACL {
             throw new AcnetError(reply.status);
     }
 
+    // Submits an ACL script to be run on the ACL server.
+
     async run(
         source: string,
         options: {
@@ -97,7 +99,7 @@ export class ACL {
             substituteStrings: undefined,
             returnSymbols: undefined
         }
-    ) {
+    ): Promise<ACL_reply> {
         if (this.con.isConnected) {
             const msg = new ACL_request_ExecuteCode();
 
