@@ -16,8 +16,6 @@ type ACL_reply = {
     returnValue?: Array<ACL_struct_ReturnValue>,
 };
 
-type Callback = (error: Error | null, reply: ACL_reply) => void;
-
 export class ACL {
     con: ACNET;
     header: any;
@@ -25,6 +23,7 @@ export class ACL {
     constructor(shConn: ACNET) {
         // Attach an ACNET connection to the object. If the caller
         // specified one, use it. Otherwise create a new one.
+
         this.con = shConn || new ACNET();
 
         // The ACLD request message has a header structure which holds
@@ -123,8 +122,7 @@ export class ACL {
             const reply = await this.con.oneshot(`ACLD@CENTRA`, msg, 60000);
 
             return this.aclReply(reply);
-        } else {
+        } else
             throw new AcnetError(Status.ACNET_DISCONNECT);
-        }
     };
 }
