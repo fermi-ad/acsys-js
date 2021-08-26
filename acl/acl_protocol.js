@@ -1,4 +1,4 @@
-///<reference path="path/to/file.d.ts" />
+///<reference path="acld_protocol.d.ts" />
 
 import { PROTOCOL } from '@fnal/proto_lib';
 
