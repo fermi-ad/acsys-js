@@ -40,41 +40,42 @@ export class ACL {
         });
     }
 
-    aclReply(cb: Callback) {
-        return (reply: Reply<Uint8Array>) => {
-            const { msg, ...copy } = reply;
+    // Converts a byte array into an ACL_reply structure.
 
-            if (msg !== undefined) {
-                const result: Reply<ACL_Replies> = copy;
-                result.msg = ACL_PROTO.unmarshal_reply(msg[Symbol.iterator]());
+    aclReply(reply: Reply<Uint8Array>): ACL_reply {
+        const { msg, ...copy } = reply;
 
-                if (result.msg instanceof ACL_reply_ExecuteScript) {
-                    const {
-                        status,
-                        numSuppressedSettings,
-                        startTime,
-                        endTime,
-                        returnValue,
-                    } = result.msg;
-                    const reply: ACL_reply = {
-                        status: new Status(status),
-                        supSettings: numSuppressedSettings,
-                        startTime: new Date(startTime * 1000),
-                        endTime: new Date(endTime * 1000),
-                        returnValue,
-                    };
+        if (msg !== undefined) {
+            const result: Reply<ACL_Replies> = copy;
 
-                    cb(null, reply);
-                }
-            } else throw new AcnetError(reply.status);
+            result.msg = ACL_PROTO.unmarshal_reply(msg[Symbol.iterator]());
 
-            return false;
-        };
+            if (result.msg instanceof ACL_reply_ExecuteScript) {
+                const {
+                    status,
+                    numSuppressedSettings,
+                    startTime,
+                    endTime,
+                    returnValue,
+                } = result.msg;
+
+                const reply: ACL_reply = {
+                    status: new Status(status),
+                    supSettings: numSuppressedSettings,
+                    startTime: new Date(startTime * 1000),
+                    endTime: new Date(endTime * 1000),
+                    returnValue,
+                };
+
+                return reply;
+            } else
+                throw new AcnetError(Status.ACNET_RPLYPACK);
+        } else
+            throw new AcnetError(reply.status);
     }
 
     async run(
         source: string,
-        cb: Callback,
         options: {
             defaultDataEvent: string
             staleErrors: boolean
@@ -97,18 +98,6 @@ export class ACL {
             returnSymbols: null
         }
     ) {
-        if (cb === undefined) {
-            return new Promise((resolve, reject) => {
-                this.run(
-                    source,
-                    (err, result) => {
-                        err ? reject(err) : resolve(result);
-                    },
-                    options
-                );
-            });
-        }
-
         if (this.con.isConnected) {
             const msg = new ACL_request_ExecuteCode();
 
@@ -130,9 +119,10 @@ export class ACL {
             });
 
             const reply = await this.con.oneshot(`ACLD@CENTRA`, msg, 60000);
-            this.aclReply(cb)(reply);
+
+            return this.aclReply(reply);
         } else {
-            cb(new Error(`Not connected`), { status: Status.ACNET_DISCONNECT });
+            throw new AcnetError(Status.ACNET_DISCONNECT);
         }
     };
 }
