@@ -1,3 +1,5 @@
+///<reference path="path/to/file.d.ts" />
+
 import { PROTOCOL } from '@fnal/proto_lib';
 
 export const ACL_PROTO = {};
