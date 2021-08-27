@@ -1,18 +1,17 @@
-///<reference path="acld_protocol.d.ts" />
-
+///<reference path="acl_protocol.d.ts" />
 import { PROTOCOL } from '@fnal/proto_lib';
 
-export const ACL_PROTO = {};
+export const ACLDPROTOCOL_PROTO = {};
 
 // Define enumerations of the protocol.
 
-ACL_PROTO.enum = {
+ACLDPROTOCOL_PROTO.enum = {
 
 };
 
 // Define user-defined structures of the protocol.
 
-export class ACL_struct_Header {
+export class ACLDPROTOCOL_struct_Header {
     constructor() {
 	this.requestorName = "";
 	this.requestorNode = 0;
@@ -27,7 +26,7 @@ export class ACL_struct_Header {
     };
 };
 
-export class ACL_struct_ScriptInfo {
+export class ACLDPROTOCOL_struct_ScriptInfo {
     constructor() {
 	this.ACLCode = "";
 	this.defaultDataEvent = "";
@@ -74,7 +73,7 @@ export class ACL_struct_ScriptInfo {
     };
 };
 
-export class ACL_struct_ScriptInfoGenericArgs {
+export class ACLDPROTOCOL_struct_ScriptInfoGenericArgs {
     constructor() {
 	this.ACLCode = "";
 	this.defaultDataEvent = "";
@@ -121,7 +120,7 @@ export class ACL_struct_ScriptInfoGenericArgs {
     };
 };
 
-export class ACL_struct_ReturnValue {
+export class ACLDPROTOCOL_struct_ReturnValue {
     constructor() {
 	this.name = "";
 	this.value = "";
@@ -136,8 +135,8 @@ export class ACL_struct_ReturnValue {
     };
 };
 
-ACL_PROTO.u_struct_Header = function (iter) {
-    const v = new ACL_struct_Header();
+ACLDPROTOCOL_PROTO.u_struct_Header = function (iter) {
+    const v = new ACLDPROTOCOL_struct_Header();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
@@ -152,17 +151,17 @@ ACL_PROTO.u_struct_Header = function (iter) {
 	    fflg[0] |= 2;
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_struct_Header");
+	    throw new Error("unknown field when building ACLDPROTOCOL_struct_Header");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 3)
-	throw new Error("required fields missing when building ACL_struct_Header");
+	throw new Error("required fields missing when building ACLDPROTOCOL_struct_Header");
     return v;
 };
 
-ACL_PROTO.u_struct_ScriptInfo = function (iter) {
-    const v = new ACL_struct_ScriptInfo();
+ACLDPROTOCOL_PROTO.u_struct_ScriptInfo = function (iter) {
+    const v = new ACLDPROTOCOL_struct_ScriptInfo();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
@@ -206,17 +205,17 @@ ACL_PROTO.u_struct_ScriptInfo = function (iter) {
 	    v.returnSymbols = PROTOCOL.u_array(PROTOCOL.u_string, iter);
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_struct_ScriptInfo");
+	    throw new Error("unknown field when building ACLDPROTOCOL_struct_ScriptInfo");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 127)
-	throw new Error("required fields missing when building ACL_struct_ScriptInfo");
+	throw new Error("required fields missing when building ACLDPROTOCOL_struct_ScriptInfo");
     return v;
 };
 
-ACL_PROTO.u_struct_ScriptInfoGenericArgs = function (iter) {
-    const v = new ACL_struct_ScriptInfoGenericArgs();
+ACLDPROTOCOL_PROTO.u_struct_ScriptInfoGenericArgs = function (iter) {
+    const v = new ACLDPROTOCOL_struct_ScriptInfoGenericArgs();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
@@ -260,17 +259,17 @@ ACL_PROTO.u_struct_ScriptInfoGenericArgs = function (iter) {
 	    v.returnSymbols = PROTOCOL.u_array(PROTOCOL.u_string, iter);
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_struct_ScriptInfoGenericArgs");
+	    throw new Error("unknown field when building ACLDPROTOCOL_struct_ScriptInfoGenericArgs");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 127)
-	throw new Error("required fields missing when building ACL_struct_ScriptInfoGenericArgs");
+	throw new Error("required fields missing when building ACLDPROTOCOL_struct_ScriptInfoGenericArgs");
     return v;
 };
 
-ACL_PROTO.u_struct_ReturnValue = function (iter) {
-    const v = new ACL_struct_ReturnValue();
+ACLDPROTOCOL_PROTO.u_struct_ReturnValue = function (iter) {
+    const v = new ACLDPROTOCOL_struct_ReturnValue();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
@@ -285,25 +284,25 @@ ACL_PROTO.u_struct_ReturnValue = function (iter) {
 	    fflg[0] |= 2;
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_struct_ReturnValue");
+	    throw new Error("unknown field when building ACLDPROTOCOL_struct_ReturnValue");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 3)
-	throw new Error("required fields missing when building ACL_struct_ReturnValue");
+	throw new Error("required fields missing when building ACLDPROTOCOL_struct_ReturnValue");
     return v;
 };
 
 // Define requests of the protocol.
 
-export class ACL_request_ExecuteDBFile {
+export class ACLDPROTOCOL_request_ExecuteDBFile {
     constructor() {
-	this.header = new ACL_struct_Header();
-	this.scriptInfo = new ACL_struct_ScriptInfo();
+	this.header = new ACLDPROTOCOL_struct_Header();
+	this.scriptInfo = new ACLDPROTOCOL_struct_ScriptInfo();
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 52, 138, 81, 4];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 52, 138, 81, 4];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 163, 226];
@@ -311,14 +310,14 @@ export class ACL_request_ExecuteDBFile {
     };
 };
 
-export class ACL_request_ExecuteFlatFile {
+export class ACLDPROTOCOL_request_ExecuteFlatFile {
     constructor() {
-	this.header = new ACL_struct_Header();
-	this.scriptInfo = new ACL_struct_ScriptInfo();
+	this.header = new ACLDPROTOCOL_struct_Header();
+	this.scriptInfo = new ACLDPROTOCOL_struct_ScriptInfo();
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 139, 245, 81, 4];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 139, 245, 81, 4];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 163, 226];
@@ -326,14 +325,14 @@ export class ACL_request_ExecuteFlatFile {
     };
 };
 
-export class ACL_request_ExecuteCode {
+export class ACLDPROTOCOL_request_ExecuteCode {
     constructor() {
-	this.header = new ACL_struct_Header();
-	this.scriptInfo = new ACL_struct_ScriptInfo();
+	this.header = new ACLDPROTOCOL_struct_Header();
+	this.scriptInfo = new ACLDPROTOCOL_struct_ScriptInfo();
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 132, 143, 81, 4];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 132, 143, 81, 4];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 163, 226];
@@ -341,15 +340,15 @@ export class ACL_request_ExecuteCode {
     };
 };
 
-export class ACL_request_ExecuteDBFileMultReply {
+export class ACLDPROTOCOL_request_ExecuteDBFileMultReply {
     constructor() {
-	this.header = new ACL_struct_Header();
+	this.header = new ACLDPROTOCOL_struct_Header();
 	this.executeDataEvent = "";
-	this.scriptInfo = new ACL_struct_ScriptInfo();
+	this.scriptInfo = new ACLDPROTOCOL_struct_ScriptInfo();
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 187, 33, 81, 6];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 187, 33, 81, 6];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 203, 153];
@@ -359,15 +358,15 @@ export class ACL_request_ExecuteDBFileMultReply {
     };
 };
 
-export class ACL_request_ExecuteFlatFileMultReply {
+export class ACLDPROTOCOL_request_ExecuteFlatFileMultReply {
     constructor() {
-	this.header = new ACL_struct_Header();
+	this.header = new ACLDPROTOCOL_struct_Header();
 	this.executeDataEvent = "";
-	this.scriptInfo = new ACL_struct_ScriptInfo();
+	this.scriptInfo = new ACLDPROTOCOL_struct_ScriptInfo();
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 111, 132, 81, 6];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 111, 132, 81, 6];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 203, 153];
@@ -377,15 +376,15 @@ export class ACL_request_ExecuteFlatFileMultReply {
     };
 };
 
-export class ACL_request_ExecuteCodeMultReply {
+export class ACLDPROTOCOL_request_ExecuteCodeMultReply {
     constructor() {
-	this.header = new ACL_struct_Header();
+	this.header = new ACLDPROTOCOL_struct_Header();
 	this.executeDataEvent = "";
-	this.scriptInfo = new ACL_struct_ScriptInfo();
+	this.scriptInfo = new ACLDPROTOCOL_struct_ScriptInfo();
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 126, 1, 81, 6];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 126, 1, 81, 6];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 203, 153];
@@ -395,14 +394,14 @@ export class ACL_request_ExecuteCodeMultReply {
     };
 };
 
-export class ACL_request_ExecuteDBFileGenericArgs {
+export class ACLDPROTOCOL_request_ExecuteDBFileGenericArgs {
     constructor() {
-	this.header = new ACL_struct_Header();
-	this.scriptInfo = new ACL_struct_ScriptInfoGenericArgs();
+	this.header = new ACLDPROTOCOL_struct_Header();
+	this.scriptInfo = new ACLDPROTOCOL_struct_ScriptInfoGenericArgs();
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 153, 210, 81, 4];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 153, 210, 81, 4];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 163, 226];
@@ -410,14 +409,14 @@ export class ACL_request_ExecuteDBFileGenericArgs {
     };
 };
 
-export class ACL_request_ExecuteFlatFileGenericArgs {
+export class ACLDPROTOCOL_request_ExecuteFlatFileGenericArgs {
     constructor() {
-	this.header = new ACL_struct_Header();
-	this.scriptInfo = new ACL_struct_ScriptInfoGenericArgs();
+	this.header = new ACLDPROTOCOL_struct_Header();
+	this.scriptInfo = new ACLDPROTOCOL_struct_ScriptInfoGenericArgs();
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 211, 78, 81, 4];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 211, 78, 81, 4];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 163, 226];
@@ -425,14 +424,14 @@ export class ACL_request_ExecuteFlatFileGenericArgs {
     };
 };
 
-export class ACL_request_ExecuteCodeGenericArgs {
+export class ACLDPROTOCOL_request_ExecuteCodeGenericArgs {
     constructor() {
-	this.header = new ACL_struct_Header();
-	this.scriptInfo = new ACL_struct_ScriptInfoGenericArgs();
+	this.header = new ACLDPROTOCOL_struct_Header();
+	this.scriptInfo = new ACLDPROTOCOL_struct_ScriptInfoGenericArgs();
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 67, 35, 81, 4];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 67, 35, 81, 4];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 163, 226];
@@ -440,32 +439,32 @@ export class ACL_request_ExecuteCodeGenericArgs {
     };
 };
 
-export class ACL_request_GetAcldVersion {
+export class ACLDPROTOCOL_request_GetAcldVersion {
     constructor() {
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 195, 248, 81, 0];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 195, 248, 81, 0];
     };
 };
 
-export class ACL_request_GetNumScripts {
+export class ACLDPROTOCOL_request_GetNumScripts {
     constructor() {
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 188, 160, 81, 0];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 188, 160, 81, 0];
     };
 };
 
-export class ACL_request_KillScript {
+export class ACLDPROTOCOL_request_KillScript {
     constructor() {
-	this.header = new ACL_struct_Header();
+	this.header = new ACLDPROTOCOL_struct_Header();
 	this.ACLCode = "";
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 82, 2, 81, 4];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 82, 2, 81, 4];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 181, 106];
@@ -473,48 +472,48 @@ export class ACL_request_KillScript {
     };
 };
 
-export class ACL_request_KillMyScripts {
+export class ACLDPROTOCOL_request_KillMyScripts {
     constructor() {
-	this.header = new ACL_struct_Header();
+	this.header = new ACLDPROTOCOL_struct_Header();
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 145, 76, 81, 2];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 145, 76, 81, 2];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
     };
 };
 
-export class ACL_request_KillAllScripts {
+export class ACLDPROTOCOL_request_KillAllScripts {
     constructor() {
-	this.header = new ACL_struct_Header();
+	this.header = new ACLDPROTOCOL_struct_Header();
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 28, 153, 81, 2];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 28, 153, 81, 2];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
     };
 };
 
-export class ACL_request_UpdateClientInfo {
+export class ACLDPROTOCOL_request_UpdateClientInfo {
     constructor() {
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 118, 78, 81, 0];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 118, 78, 81, 0];
     };
 };
 
-export class ACL_request_CommandHelp {
+export class ACLDPROTOCOL_request_CommandHelp {
     constructor() {
-	this.header = new ACL_struct_Header();
+	this.header = new ACLDPROTOCOL_struct_Header();
 	this.wantOneline = false;
 	this.commandName = "";
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 227, 141, 81, 6];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 227, 141, 81, 6];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 171, 221];
@@ -524,15 +523,15 @@ export class ACL_request_CommandHelp {
     };
 };
 
-export class ACL_request_FunctionHelp {
+export class ACLDPROTOCOL_request_FunctionHelp {
     constructor() {
-	this.header = new ACL_struct_Header();
+	this.header = new ACLDPROTOCOL_struct_Header();
 	this.wantOneline = false;
 	this.functionName = "";
     };
 
     *marshal() {
-	yield* [83, 68, 68, 2, 81, 3, 20, 91, 236, 85, 212, 18, 178, 52, 81, 6];
+	yield* [83, 68, 68, 2, 81, 3, 20, 191, 1, 128, 24, 18, 178, 52, 81, 6];
 	yield* [18, 185, 149];
 	yield* PROTOCOL.m_struct(this.header);
 	yield* [18, 171, 221];
@@ -544,9 +543,9 @@ export class ACL_request_FunctionHelp {
 
 // Define replies of the protocol.
 
-export class ACL_reply_ExecuteScript {
+export class ACLDPROTOCOL_reply_ExecuteScript {
     constructor() {
-	this.header = new ACL_struct_Header();
+	this.header = new ACLDPROTOCOL_struct_Header();
 	this.status = 0;
 	this.numSuppressedSettings = 0;
 	this.startTime = 0;
@@ -554,21 +553,21 @@ export class ACL_reply_ExecuteScript {
     };
 };
 
-export class ACL_reply_ExecuteScriptImmediateReply {
+export class ACLDPROTOCOL_reply_ExecuteScriptImmediateReply {
     constructor() {
-	this.header = new ACL_struct_Header();
+	this.header = new ACLDPROTOCOL_struct_Header();
 	this.status = 0;
     };
 };
 
-export class ACL_reply_GetAcldVersionReply {
+export class ACLDPROTOCOL_reply_GetAcldVersionReply {
     constructor() {
 	this.status = 0;
 	this.version = "";
     };
 };
 
-export class ACL_reply_GetNumScriptsReply {
+export class ACLDPROTOCOL_reply_GetNumScriptsReply {
     constructor() {
 	this.status = 0;
 	this.numScripts = 0;
@@ -576,49 +575,49 @@ export class ACL_reply_GetNumScriptsReply {
     };
 };
 
-export class ACL_reply_KillScriptReply {
+export class ACLDPROTOCOL_reply_KillScriptReply {
     constructor() {
 	this.status = 0;
     };
 };
 
-export class ACL_reply_KillMyScriptsReply {
-    constructor() {
-	this.status = 0;
-	this.numKilled = 0;
-    };
-};
-
-export class ACL_reply_KillAllScriptsReply {
+export class ACLDPROTOCOL_reply_KillMyScriptsReply {
     constructor() {
 	this.status = 0;
 	this.numKilled = 0;
     };
 };
 
-export class ACL_reply_CommandHelpReply {
+export class ACLDPROTOCOL_reply_KillAllScriptsReply {
+    constructor() {
+	this.status = 0;
+	this.numKilled = 0;
+    };
+};
+
+export class ACLDPROTOCOL_reply_CommandHelpReply {
     constructor() {
 	this.status = 0;
 	this.helpStrings = [];
     };
 };
 
-export class ACL_reply_FunctionHelpReply {
+export class ACLDPROTOCOL_reply_FunctionHelpReply {
     constructor() {
 	this.status = 0;
 	this.helpStrings = [];
     };
 };
 
-ACL_PROTO.u_reply_ExecuteScript = function (iter) {
-    const v = new ACL_reply_ExecuteScript();
+ACLDPROTOCOL_PROTO.u_reply_ExecuteScript = function (iter) {
+    const v = new ACLDPROTOCOL_reply_ExecuteScript();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
     while (nFlds > 0) {
 	switch (PROTOCOL.u_tagged_int(0x10, iter)) {
 	 case -18027:
-	    v.header = ACL_PROTO.u_struct_Header(iter);
+	    v.header = ACLDPROTOCOL_PROTO.u_struct_Header(iter);
 	    fflg[0] |= 1;
 	    break;
 	 case 17492:
@@ -638,27 +637,27 @@ ACL_PROTO.u_reply_ExecuteScript = function (iter) {
 	    fflg[0] |= 16;
 	    break;
 	 case 15586:
-	    v.returnValue = PROTOCOL.u_array(ACL_PROTO.u_struct_ReturnValue, iter);
+	    v.returnValue = PROTOCOL.u_array(ACLDPROTOCOL_PROTO.u_struct_ReturnValue, iter);
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_reply_ExecuteScript");
+	    throw new Error("unknown field when building ACLDPROTOCOL_reply_ExecuteScript");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 31)
-	throw new Error("required fields missing when building ACL_reply_ExecuteScript");
+	throw new Error("required fields missing when building ACLDPROTOCOL_reply_ExecuteScript");
     return v;
 };
 
-ACL_PROTO.u_reply_ExecuteScriptImmediateReply = function (iter) {
-    const v = new ACL_reply_ExecuteScriptImmediateReply();
+ACLDPROTOCOL_PROTO.u_reply_ExecuteScriptImmediateReply = function (iter) {
+    const v = new ACLDPROTOCOL_reply_ExecuteScriptImmediateReply();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
     while (nFlds > 0) {
 	switch (PROTOCOL.u_tagged_int(0x10, iter)) {
 	 case -18027:
-	    v.header = ACL_PROTO.u_struct_Header(iter);
+	    v.header = ACLDPROTOCOL_PROTO.u_struct_Header(iter);
 	    fflg[0] |= 1;
 	    break;
 	 case 17492:
@@ -666,17 +665,17 @@ ACL_PROTO.u_reply_ExecuteScriptImmediateReply = function (iter) {
 	    fflg[0] |= 2;
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_reply_ExecuteScriptImmediateReply");
+	    throw new Error("unknown field when building ACLDPROTOCOL_reply_ExecuteScriptImmediateReply");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 3)
-	throw new Error("required fields missing when building ACL_reply_ExecuteScriptImmediateReply");
+	throw new Error("required fields missing when building ACLDPROTOCOL_reply_ExecuteScriptImmediateReply");
     return v;
 };
 
-ACL_PROTO.u_reply_GetAcldVersionReply = function (iter) {
-    const v = new ACL_reply_GetAcldVersionReply();
+ACLDPROTOCOL_PROTO.u_reply_GetAcldVersionReply = function (iter) {
+    const v = new ACLDPROTOCOL_reply_GetAcldVersionReply();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
@@ -691,17 +690,17 @@ ACL_PROTO.u_reply_GetAcldVersionReply = function (iter) {
 	    fflg[0] |= 2;
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_reply_GetAcldVersionReply");
+	    throw new Error("unknown field when building ACLDPROTOCOL_reply_GetAcldVersionReply");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 3)
-	throw new Error("required fields missing when building ACL_reply_GetAcldVersionReply");
+	throw new Error("required fields missing when building ACLDPROTOCOL_reply_GetAcldVersionReply");
     return v;
 };
 
-ACL_PROTO.u_reply_GetNumScriptsReply = function (iter) {
-    const v = new ACL_reply_GetNumScriptsReply();
+ACLDPROTOCOL_PROTO.u_reply_GetNumScriptsReply = function (iter) {
+    const v = new ACLDPROTOCOL_reply_GetNumScriptsReply();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
@@ -720,28 +719,28 @@ ACL_PROTO.u_reply_GetNumScriptsReply = function (iter) {
 	    fflg[0] |= 4;
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_reply_GetNumScriptsReply");
+	    throw new Error("unknown field when building ACLDPROTOCOL_reply_GetNumScriptsReply");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 7)
-	throw new Error("required fields missing when building ACL_reply_GetNumScriptsReply");
+	throw new Error("required fields missing when building ACLDPROTOCOL_reply_GetNumScriptsReply");
     return v;
 };
 
-ACL_PROTO.u_reply_KillScriptReply = function (iter) {
-    const v = new ACL_reply_KillScriptReply();
+ACLDPROTOCOL_PROTO.u_reply_KillScriptReply = function (iter) {
+    const v = new ACLDPROTOCOL_reply_KillScriptReply();
 
     if (PROTOCOL.u_tagged_int(0x50, iter) !== 2)
-	throw new Error("required fields missing when building ACL_reply_KillScriptReply");
+	throw new Error("required fields missing when building ACLDPROTOCOL_reply_KillScriptReply");
     if (PROTOCOL.u_tagged_int(0x10, iter) !== 17492)
-	throw new Error("unknown field when building ACL_reply_KillScriptReply");
+	throw new Error("unknown field when building ACLDPROTOCOL_reply_KillScriptReply");
     v.status = PROTOCOL.u_int(iter);
     return v;
 }
 
-ACL_PROTO.u_reply_KillMyScriptsReply = function (iter) {
-    const v = new ACL_reply_KillMyScriptsReply();
+ACLDPROTOCOL_PROTO.u_reply_KillMyScriptsReply = function (iter) {
+    const v = new ACLDPROTOCOL_reply_KillMyScriptsReply();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
@@ -756,17 +755,17 @@ ACL_PROTO.u_reply_KillMyScriptsReply = function (iter) {
 	    fflg[0] |= 2;
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_reply_KillMyScriptsReply");
+	    throw new Error("unknown field when building ACLDPROTOCOL_reply_KillMyScriptsReply");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 3)
-	throw new Error("required fields missing when building ACL_reply_KillMyScriptsReply");
+	throw new Error("required fields missing when building ACLDPROTOCOL_reply_KillMyScriptsReply");
     return v;
 };
 
-ACL_PROTO.u_reply_KillAllScriptsReply = function (iter) {
-    const v = new ACL_reply_KillAllScriptsReply();
+ACLDPROTOCOL_PROTO.u_reply_KillAllScriptsReply = function (iter) {
+    const v = new ACLDPROTOCOL_reply_KillAllScriptsReply();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
@@ -781,17 +780,17 @@ ACL_PROTO.u_reply_KillAllScriptsReply = function (iter) {
 	    fflg[0] |= 2;
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_reply_KillAllScriptsReply");
+	    throw new Error("unknown field when building ACLDPROTOCOL_reply_KillAllScriptsReply");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 3)
-	throw new Error("required fields missing when building ACL_reply_KillAllScriptsReply");
+	throw new Error("required fields missing when building ACLDPROTOCOL_reply_KillAllScriptsReply");
     return v;
 };
 
-ACL_PROTO.u_reply_CommandHelpReply = function (iter) {
-    const v = new ACL_reply_CommandHelpReply();
+ACLDPROTOCOL_PROTO.u_reply_CommandHelpReply = function (iter) {
+    const v = new ACLDPROTOCOL_reply_CommandHelpReply();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
@@ -806,17 +805,17 @@ ACL_PROTO.u_reply_CommandHelpReply = function (iter) {
 	    fflg[0] |= 2;
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_reply_CommandHelpReply");
+	    throw new Error("unknown field when building ACLDPROTOCOL_reply_CommandHelpReply");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 3)
-	throw new Error("required fields missing when building ACL_reply_CommandHelpReply");
+	throw new Error("required fields missing when building ACLDPROTOCOL_reply_CommandHelpReply");
     return v;
 };
 
-ACL_PROTO.u_reply_FunctionHelpReply = function (iter) {
-    const v = new ACL_reply_FunctionHelpReply();
+ACLDPROTOCOL_PROTO.u_reply_FunctionHelpReply = function (iter) {
+    const v = new ACLDPROTOCOL_reply_FunctionHelpReply();
     const fflg = new Uint8Array(1);
     var nFlds = PROTOCOL.u_tagged_int(0x50, iter);
 
@@ -831,40 +830,40 @@ ACL_PROTO.u_reply_FunctionHelpReply = function (iter) {
 	    fflg[0] |= 2;
 	    break;
 	 default:
-	    throw new Error("unknown field when building ACL_reply_FunctionHelpReply");
+	    throw new Error("unknown field when building ACLDPROTOCOL_reply_FunctionHelpReply");
 	}
 	nFlds -= 2;
     }
     if (fflg[0] !== 3)
-	throw new Error("required fields missing when building ACL_reply_FunctionHelpReply");
+	throw new Error("required fields missing when building ACLDPROTOCOL_reply_FunctionHelpReply");
     return v;
 };
 
-ACL_PROTO.unmarshal_reply = function (iter) {
+ACLDPROTOCOL_PROTO.unmarshal_reply = function (iter) {
     PROTOCOL.validate_header(2, iter);
     if (PROTOCOL.u_tagged_int(0x50, iter) !== 3)
 	throw new Error("badly formed message header");
-    if (PROTOCOL.u_tagged_int(0x10, iter) !== 1542215124)
+    if (PROTOCOL.u_tagged_int(0x10, iter) !== -1090420712)
 	throw new Error("unknown protocol type");
     switch (PROTOCOL.u_tagged_int(0x10, iter)) {
      case -20715:
-	return ACL_PROTO.u_reply_ExecuteScript(iter);
+	return ACLDPROTOCOL_PROTO.u_reply_ExecuteScript(iter);
      case 18186:
-	return ACL_PROTO.u_reply_ExecuteScriptImmediateReply(iter);
+	return ACLDPROTOCOL_PROTO.u_reply_ExecuteScriptImmediateReply(iter);
      case 23501:
-	return ACL_PROTO.u_reply_GetAcldVersionReply(iter);
+	return ACLDPROTOCOL_PROTO.u_reply_GetAcldVersionReply(iter);
      case -6373:
-	return ACL_PROTO.u_reply_GetNumScriptsReply(iter);
+	return ACLDPROTOCOL_PROTO.u_reply_GetNumScriptsReply(iter);
      case 20464:
-	return ACL_PROTO.u_reply_KillScriptReply(iter);
+	return ACLDPROTOCOL_PROTO.u_reply_KillScriptReply(iter);
      case -23030:
-	return ACL_PROTO.u_reply_KillMyScriptsReply(iter);
+	return ACLDPROTOCOL_PROTO.u_reply_KillMyScriptsReply(iter);
      case 26453:
-	return ACL_PROTO.u_reply_KillAllScriptsReply(iter);
+	return ACLDPROTOCOL_PROTO.u_reply_KillAllScriptsReply(iter);
      case 7111:
-	return ACL_PROTO.u_reply_CommandHelpReply(iter);
+	return ACLDPROTOCOL_PROTO.u_reply_CommandHelpReply(iter);
      case -30796:
-	return ACL_PROTO.u_reply_FunctionHelpReply(iter);
+	return ACLDPROTOCOL_PROTO.u_reply_FunctionHelpReply(iter);
      default:
 	throw new Error("unknown reply in protocol");
     }

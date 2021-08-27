@@ -4,7 +4,7 @@
 
 ## Installing
 
-'''ACSys''' is available via a Fermi hosted npm repository.
+**ACSys** is available via a Fermi hosted npm repository.
 
 ```bash
 npm install --registry http://adrfads.fnal.gov:4873 @fnal/acsys
@@ -28,10 +28,12 @@ dpm.addRequest(`M:OUTTMP`,
 dpm.start();
 ```
 
+
 ### From Browser 
 You can use this library from the browser either by:
 - Using a node-like module package for the browser, in your project, or.
 - Linking to the bundled version.
+
 
 ### Using as a module from browser
 You can use browser resolution when building a ```React``` front-end application, or 
@@ -70,8 +72,9 @@ And from your HTML files.
 </head>
 ```
 
-* '''Note''' this option is recommended since it allows IDEs like VS Code to resolve 
+* **Note** this option is recommended since it allows IDEs like VS Code to resolve 
 dependencies and let's you use intelli-sense code completion.
+
 
 ### Using the Bundled Version
 
@@ -95,6 +98,8 @@ const dpm = new DPM();
 </script>
 ```
 
+
+
 ## ACL Usage
 
 You can also use ```ACL``` library in the same ways as the ```DPM``` library.
@@ -105,7 +110,17 @@ You can also use ```ACL``` library in the same ways as the ```DPM``` library.
 ```javascript
 import {ACL} from '@fnal/acsys';
 const acl = new ACL();
-// use acl object
+acl.con.notifyOnConnect(async (handle) => {
+    try {
+        console.log("Handle:", handle);
+        let reply = await acl.run("read M:OUTTMP");
+        console.log(reply);
+    }
+    catch (error) {
+        console.error(error);
+    }
+});
+
 
 ```
 
@@ -121,6 +136,17 @@ Import as a module on your javascript file:
 //index.js
 import {ACL} from '@fnal/acsys';
 const acl = new ACL();
+acl.con.notifyOnConnect(async (handle) => {
+    try {
+        console.log("Handle:", handle);
+        let reply = await acl.run("read M:OUTTMP");
+        console.log(reply);
+    }
+    catch (error) {
+        console.error(error);
+    }
+});
+
 ```
 
 ### Using the Bundled Version
@@ -132,7 +158,17 @@ Add the ```bundle.js``` script and use the global variable ```acsys```:
 <script>
 const ACL = acsys.ACL;
 const acl = new ACL();
-// use the acl object
+acl.con.notifyOnConnect(async (handle) => {
+    try {
+        console.log("Handle:", handle);
+        let reply = await acl.run("read M:OUTTMP");
+        console.log(reply);
+    }
+    catch (error) {
+        console.error(error);
+    }
+});
+
 </script>
 ```
 
