@@ -1,16 +1,20 @@
 # ACSys JavaScript DPM and ACL Clients
 
-`acsys` is the interface to Fermilab data acquisition and control.
+`ACSys` is the interface to Fermilab data acquisition and control.
+
 
 ## Installing
 
-**ACSys** is available via a Fermi hosted npm repository.
+`ACSys` is available via a Fermi hosted npm repository.
 
 ```bash
 npm install --registry http://adrfads.fnal.gov:4873 @fnal/acsys
 ```
-## DPM Usage
-### From Node.js Script
+
+
+## DPM Client Usage
+
+### From Node.js
 
 ```javascript
 import {DPM} from '@fnal/acsys';
@@ -30,14 +34,15 @@ dpm.start();
 
 
 ### From Browser 
+
 You can use this library from the browser either by:
 - Using a node-like module package for the browser, in your project, or.
 - Linking to the bundled version.
 
 
 ### Using as a module from browser
-You can use browser resolution when building a ```React``` front-end application, or 
-by using a library like ```parcel``` or ```browserify``` in your project.
+
+You can use browser resolution when building a `React` front-end application, or by using a library like `parcel` or `browserify` in your project.
 
 Start by installing from Fermilab registry:
 
@@ -46,7 +51,6 @@ npm install --registry http://adrfads.fnal.gov:4873 @fnal/acsys
 ```
 
 Import as a module on your javascript file:
-
 
 ```javascript
 //index.js
@@ -72,13 +76,12 @@ And from your HTML files.
 </head>
 ```
 
-* **Note** this option is recommended since it allows IDEs like VS Code to resolve 
-dependencies and let's you use intelli-sense code completion.
+* **Note** this option is recommended since it allows IDEs like VS Code to resolve dependencies and let's you use intelli-sense code completion.
 
 
 ### Using the Bundled Version
 
-Add the ```bundle.js``` script in your html, and use the global variable ```acsys```:
+Add the `bundle.js` script in your html, and use the global variable `acsys`:
 
 ```html
 <script src="bundle.js"></script>
@@ -99,13 +102,12 @@ const dpm = new DPM();
 ```
 
 
+## ACL Client Usage
 
-## ACL Usage
-
-You can also use ```ACL``` library in the same ways as the ```DPM``` library.
+You can also use `ACL` client library in the same ways as the `DPM` client library.
 
 
-### From Node.js Script
+### From Node.js
 
 ```javascript
 import {ACL} from '@fnal/acsys';
@@ -120,16 +122,15 @@ acl.con.notifyOnConnect(async (handle) => {
         console.error(error);
     }
 });
-
-
 ```
 
-### Using as a module from browser
 
+### Using as a module from browser
 
 ```bash
 npm install --registry http://adrfads.fnal.gov:4873 @fnal/acsys
 ```
+
 Import as a module on your javascript file:
 
 ```javascript
@@ -146,12 +147,12 @@ acl.con.notifyOnConnect(async (handle) => {
         console.error(error);
     }
 });
-
 ```
+
 
 ### Using the Bundled Version
 
-Add the ```bundle.js``` script and use the global variable ```acsys```:
+Add the `bundle.js` script and use the global variable `acsys`:
 
 ```html
 <script src="bundle.js"></script>
@@ -174,10 +175,13 @@ acl.con.notifyOnConnect(async (handle) => {
 
 
 ## Building
+
 To install dependencies on all subpackages run:
+
 ```bash
 npm run postinstall
 ```
+
 Is the equivalent of doing `npm install` on each subpackage. This command depends on `subpackage`.
 
 To build all sub-packages and main package:
@@ -186,7 +190,7 @@ To build all sub-packages and main package:
 npm run build
 ```
 
-To generate a bundle using ```parcel```, run:
+To generate a bundle using `parcel`, run:
 
 ```bash
 npm run bundle

@@ -3,7 +3,6 @@ node_modules
 .rpt2_cache
 .vscode
 dist
-README.md
 *.tgz
 .cache
 .parcel-cache
