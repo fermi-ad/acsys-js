@@ -29,7 +29,7 @@ import {
     DPM_struct_TextSetting,
     DPM_struct_ScaledSetting,
     DPM_reply_ApplySettings
-} from "./dpm_protocol";
+} from "./dpm_protocol.js";
 
 export interface AnaAlarm {
     minimum: number;

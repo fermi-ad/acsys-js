@@ -1,19 +1,19 @@
 import { ACNET, AcnetError, Reply, Status } from "@fnal/acnet";
 import {
-    ACL_PROTO,
-    ACL_Replies,
-    ACL_reply_ExecuteScript,
-    ACL_request_ExecuteCode,
-    ACL_struct_Header,
-    ACL_struct_ReturnValue
-} from "./acl_protocol";
+    ACLDPROTOCOL_PROTO,
+    ACLDPROTOCOL_Replies,
+    ACLDPROTOCOL_reply_ExecuteScript,
+    ACLDPROTOCOL_request_ExecuteCode,
+    ACLDPROTOCOL_struct_Header,
+    ACLDPROTOCOL_struct_ReturnValue
+} from "./acl_protocol.js";
 
 type ACL_reply = {
     status: Status
     supSettings?: number
     startTime?: Date
     endTime?: Date
-    returnValue?: Array<ACL_struct_ReturnValue>,
+    returnValue?: Array<ACLDPROTOCOL_struct_ReturnValue>,
 };
 
 export class ACL {
@@ -31,7 +31,7 @@ export class ACL {
         // that we're connected, we update the header, which will remain
         // constant until we disconnect again.
 
-        this.header = new ACL_struct_Header();
+        this.header = new ACLDPROTOCOL_struct_Header();
         this.header.requestorNode = 3338;
 
         this.con.notifyOnConnect(handle => {
@@ -45,11 +45,11 @@ export class ACL {
         const { msg, ...copy } = reply;
 
         if (msg !== undefined) {
-            const result: Reply<ACL_Replies> = copy;
+            const result: Reply<ACLDPROTOCOL_Replies> = copy;
 
-            result.msg = ACL_PROTO.unmarshal_reply(msg[Symbol.iterator]());
+            result.msg = ACLDPROTOCOL_PROTO.unmarshal_reply(msg[Symbol.iterator]());
 
-            if (result.msg instanceof ACL_reply_ExecuteScript) {
+            if (result.msg instanceof ACLDPROTOCOL_reply_ExecuteScript) {
                 const {
                     status,
                     numSuppressedSettings,
@@ -84,9 +84,9 @@ export class ACL {
             settings: boolean
             persistent: boolean
             wantImmediateReply: boolean
-            substituteDevices: null
-            substituteStrings: null
-            returnSymbols: null
+            substituteDevices: undefined
+            substituteStrings: undefined
+            returnSymbols: Array<any>
         } = {
             defaultDataEvent: "",
             staleErrors: true,
@@ -94,13 +94,13 @@ export class ACL {
             settings: true,
             persistent: false,
             wantImmediateReply: false,
-            substituteDevices: null,
-            substituteStrings: null,
-            returnSymbols: null
+            substituteDevices: undefined,
+            substituteStrings: undefined,
+            returnSymbols: ['$_output_strings[]']
         }
     ): Promise<ACL_reply> {
         if (this.con.isConnected) {
-            const msg = new ACL_request_ExecuteCode();
+            const msg = new ACLDPROTOCOL_request_ExecuteCode();
 
             msg.header = this.header;
             msg.scriptInfo.ACLCode = source;
@@ -122,7 +122,8 @@ export class ACL {
             const reply = await this.con.oneshot(`ACLD@CENTRA`, msg, 60000);
 
             return this.aclReply(reply);
-        } else
+        } else {
             throw new AcnetError(Status.ACNET_DISCONNECT);
+        }
     };
 }

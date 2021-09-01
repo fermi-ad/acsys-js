@@ -1,27 +1,31 @@
 {
-  "name": "@fnal/acl",
-  "version": "1.0.0",
-  "description": "",
-  "main": "acl.js",
-  "scripts": {
-    "cp": "cp acl_protocol.* dist/",
-    "build:proto": "node build.js",
-    "build": "npm run build:proto && tsc -p tsconfig.json && npm run cp",
-    "clean": "rm -rf ACL.proto dist acl_protocol.*"
-  },
-  "repository": {
-    "type": "git",
-    "url": "ssh://p-acld@cdcvs.fnal.gov/cvs/projects/acld-js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "dependencies": {
-    "@fnal/acnet": "file:../acnet",
-    "@fnal/proto_lib": "file:../proto_lib"
-  },
-  "devDependencies": {
-    "@tsconfig/recommended": "^1.0.1"
-  }
+    "name": "@fnal/acl",
+    "version": "1.1.0",
+    "description": "Provides access to ACL functionality.",
+    "main": "dist/acl.js",
+    "types": "dist/acl.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "build:proto": "node build.js",
+        "clean": "shx rm -rf ./dist"
+    },
+    "files": [
+        "dist"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "ssh://p-acld@cdcvs.fnal.gov/cvs/projects/acld-js"
+    },
+    "keywords": ["ACL", "ACNET"],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "dependencies": {
+        "@fnal/acnet": "file:../acnet",
+        "@fnal/proto_lib": "file:../proto_lib"
+    },
+    "devDependencies": {
+        "shx": "^0.3.3",
+        "typescript": "^4.3.5"
+    }
 }

@@ -1,55 +1,50 @@
 {
-  "name": "@fnal/proto_lib",
-  "version": "2.0.5",
-  "description": "Core library for protocol compiler generated libraries",
-  "main": "dist/proto_lib.mjs",
-  "module": "dist/proto_lib.mjs",
-  "browser": "dist/proto_lib.js",
-  "types": "dist/proto_lib.d.ts",
-  "scripts": {
-    "precompile": "node getProtoLib.js",
-    "build": "npm run precompile && npm run build:node && npm run build:browser && cp proto_lib.d.ts dist",
-    "build:node": "rollup -c rollup.node.js",
-    "build:browser": "rollup -c rollup.browser.js",
-    "clean": "rm -r dist",
-    "start": "rollup -c rollup.node.js -w",
-    "prepare": "npm run build",
-    "staticPush": "npm run prepare && node staticPush.js"
-  },
-  "files": [
-    "dist/*"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "ssh://p-protocol-compiler@cdcvs.fnal.gov/cvs/projects/protocol-compiler-js"
-  },
-  "publishConfig": {
-    "registry": "http://adrfads.fnal.gov:4873"
-  },
-  "keywords": [
-    "ACNET",
-    "protocol",
-    "protocol compiler"
-  ],
-  "author": "Beau Harrison <beau@fnal.gov>",
-  "contributors": [
-    {
-      "name": "Beau Harrison",
-      "email": "beau@fnal.gov"
+    "name": "@fnal/proto_lib",
+    "version": "2.0.5",
+    "description": "Core library for protocol compiler generated libraries",
+    "main": "dist/proto_lib.js",
+    "module": "dist/proto_lib.js",
+    "browser": "dist/proto_lib.js",
+    "types": "dist/proto_lib.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "getsource": "node getProtoLib.js",
+        "clean": "shx rm -rf ./dist",
+        "staticPush": "npm run build && node staticPush.js"
     },
-    {
-      "name": "Rich Neswold",
-      "email": "neswold@fnal.gov"
-    }
-  ],
-  "license": "UNLICENSED",
-  "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "rollup": "^1.19.4",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^9.3.3",
-    "rollup-plugin-node-resolve": "^4.2.4",
-    "source-map-loader": "^0.2.4"
-  },
-  "dependencies": {}
+    "files": [
+        "dist"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "ssh://p-protocol-compiler@cdcvs.fnal.gov/cvs/projects/protocol-compiler-js"
+    },
+    "publishConfig": {
+        "registry": "http://adrfads.fnal.gov:4873"
+    },
+    "keywords": [
+        "ACNET",
+        "protocol",
+        "protocol compiler"
+    ],
+    "author": "Beau Harrison <beau@fnal.gov>",
+    "contributors": [
+        {
+            "name": "Beau Harrison",
+            "email": "beau@fnal.gov"
+        },
+        {
+            "name": "Rich Neswold",
+            "email": "neswold@fnal.gov"
+        }
+    ],
+    "license": "UNLICENSED",
+    "devDependencies": {
+        "@babel/core": "^7.5.5",
+        "shx": "^0.3.3",
+        "typescript": "^4.3.5",
+        "source-map-loader": "^0.2.4"
+    },
+    "dependencies": {},
+    "type": "module"
 }

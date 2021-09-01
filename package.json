@@ -1,35 +1,53 @@
 {
-  "name": "@fnal/acsys",
-  "version": "1.0.0",
-  "description": "",
-  "main": "./dist/cjs/main.js",
-  "module": "./dist/esm/main.js",
-  "exports": "./dist/cjs/main.js",
-  "files": [
-    "./dist/"
-  ],
-  "dependencies": {
-    "@fnal/acl": "file:acl",
-    "@fnal/dpm-client": "file:dpm",
-    "browserify": "^16.5.0",
-    "rollup": "^1.20.3",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-node-resolve": "^4.2.4",
-    "typescript": "^3.6.2"
-  },
-  "scripts": {
-    "tsc": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
-    "prepublishOnly": "npm run tsc"
-  },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "publishConfig": {
-    "registry": "http://adrfads.fnal.gov:4873"
-  },
-  "keywords": [],
-  "author": "Beau Harrison <beau@fnal.gov>",
-  "license": "UNLICENSED",
-  "type": "module"
+    "name": "@fnal/acsys",
+    "version": "1.0.0",
+    "description": "DPM Client for Javascript + ACNET Libraries",
+    "main": "./dist/main.js",
+    "types": "./dist/main.d.ts",
+    "files": [
+        "dist",
+        "acl/dist",
+        "acnet/dist",
+        "dpm/dist",
+        "proto_lib/dist"
+    ],
+    "dependencies": {
+        "@fnal/dpm-client": "file:dpm",
+        "@fnal/acl": "file:acl"
+    },
+    "subPackages": [
+        "proto_lib",
+        "acnet",
+        "acl",
+        "dpm"
+    ],
+    "devDependencies": {
+        "parcel-bundler": "^1.12.5",
+        "shx": "^0.3.3",
+        "subpackage": "^1.1.0",
+        "typescript": "^4.3.5"
+    },
+    "scripts": {
+        "clean": "subpkg run clean && shx rm -rf ./dist",
+        "postinstall": "subpkg install",
+        "bundle": "parcel build main.ts -o dist/bundle.js --global acsys",
+        "build": "subpkg run build && tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "publishConfig": {
+        "registry": "http://adrfads.fnal.gov:4873"
+    },
+    "keywords": [],
+    "author": "Beau Harrison <beau@fnal.gov>",
+    "contributors": [
+        {
+            "name": "Julian Badillo",
+            "email": "jbadillo@fnal.gov"
+        }
+    ],
+    "license": "UNLICENSED",
+    "type": "module"
 }
