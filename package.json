@@ -12,8 +12,8 @@
         "proto_lib/dist"
     ],
     "dependencies": {
-        "@fnal/dpm-client": "file:dpm",
-        "@fnal/acl": "file:acl"
+        "@fnal/acl": "file:acl",
+        "@fnal/dpm-client": "file:dpm"
     },
     "subPackages": [
         "proto_lib",
@@ -22,6 +22,8 @@
         "dpm"
     ],
     "devDependencies": {
+        "chai": "^4.3.4",
+        "mocha": "^9.1.1",
         "parcel-bundler": "^1.12.5",
         "shx": "^0.3.3",
         "subpackage": "^1.1.0",
@@ -31,7 +33,8 @@
         "clean": "subpkg run clean && shx rm -rf ./dist",
         "postinstall": "subpkg install",
         "bundle": "parcel build main.ts -o dist/bundle.js --global acsys",
-        "build": "subpkg run build && tsc"
+        "build": "subpkg run build && tsc",
+        "test": "mocha --no-timeouts test/**"
     },
     "repository": {
         "type": "git",
