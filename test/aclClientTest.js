@@ -14,7 +14,7 @@ describe('ACL Client - Test', () => {
 
     it('Connect', (done) => {
         acl.con.notifyOnConnect((handle) => {
-            assert.isNotNull(handle);
+            assert.isDefined(handle);
             done();
         });
     })

@@ -9,13 +9,15 @@ describe('DPM Client - Test', () => {
     });
 
     it('Instantiate dpm client', () => {
-        assert.isNotNull(dpm);
+        assert.isDefined(dpm);
     });
 
     it('Basic read - M:OUTTMP', (done) => {
         dpm.addRequest("M:OUTTMP", function(data, info){
-            console.log(data, info);
-            dpm.cancel();
+            assert.isNotNull(data);
+            assert.isDefined(data);
+            assert.isNotNull(info);
+            assert.isDefined(info);
             dpm.stop();
             done();
         }, function(error){
