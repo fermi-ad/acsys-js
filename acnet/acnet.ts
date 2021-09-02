@@ -67,7 +67,7 @@ export class Status {
         this.status = e === undefined ? f : e * 256 + f;
     }
 
-    // Returns the raw integer represnting the Status.
+    // Returns the raw integer representing the Status.
 
     get raw(): number {
         return this.status;
@@ -141,7 +141,7 @@ function getHost() {
     return "wss://www-bd.fnal.gov/acnet-ws";
 }
 
-// Defines a type, Reply<T>, which desribes the data returned in an ACNET reply
+// Defines a type, Reply<T>, which describes the data returned in an ACNET reply
 // packet. The 'status' field contains the Status value sent in the ACNET
 // header. The 'sender' field contains the trunk/node address of the system that
 // sent the reply. The optional 'msg' field contains the payload of the reply.
@@ -158,21 +158,22 @@ interface CanFunc {
     (): Promise<Status>;
 }
 
-// Defines the signature of a function that resolves a value of an asynchonous
-// interator.
+type RawReply = Reply<Uint8Array>;
+
+// Defines the signature of a function that resolves a value of an asynchronous
+// iterator.
 
 interface Resolver {
-    (val: IteratorResult<Reply<Uint8Array>>): void;
+    (val: IteratorResult<RawReply>): void;
 }
 
-// Defines the signature of a function that rejects a value of an asynchonous
-// interator.
+// Defines the signature of a function that rejects a value of an asynchronous
+// iterator.
 
 interface Rejecter {
     (val: Status): void;
 }
 
-type RawReply = Reply<Uint8Array>;
 type AsyncIteratorResult<T> = Promise<IteratorResult<T>>;
 
 // 'Replies' is an asynchronous iterator that returns replies from an ACNET
@@ -245,11 +246,11 @@ export class Replies implements AsyncIterableIterator<RawReply> {
         }
     }
 
-    [Symbol.asyncIterator]() {
+    [Symbol.asyncIterator](): AsyncIterableIterator<RawReply> {
         return this;
     }
 
-    async next(): AsyncIteratorResult<RawReply> {
+    next(): AsyncIteratorResult<RawReply> {
         // This function removes the first entry from the queue. It also
         // enforces the requirement that the queue can't be empty. If popping
         // the first entry results in an empty queue, it appends an unresolved
@@ -293,19 +294,20 @@ export class Replies implements AsyncIterableIterator<RawReply> {
                 }
             ];
         }
+
         return tmp;
     }
 
     // This method gets called automatically when a `for await` loop terminates
     // early. It cancels the request to free up ACNET resources.
 
-    async return(val?: any): AsyncIteratorResult<RawReply> {
-        await this.cancelFunction();
-
-        return {
-            value: { status: Status.ACNET_CANCELED, sender: 0 },
-            done: true
-        };
+    return(val?: any): AsyncIteratorResult<RawReply> {
+        return this.cancelFunction().then(() => {
+            return {
+                value: { status: Status.ACNET_CANCELED, sender: 0 },
+                done: true
+            };
+        });
     }
 }
 
