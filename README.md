@@ -195,3 +195,30 @@ To generate a bundle using `parcel`, run:
 ```bash
 npm run bundle
 ```
+
+## Testing
+
+To run unit tests, using `mocha` and `chai`:
+
+```bash
+npm run test
+```
+
+**Browser Testing**
+
+You can test on the browser as either module or bundle by running any of these commands:
+
+
+```bash
+# For DPM client
+npm run test:dpm:webmodule
+npm run test:dpm:webbundle
+```
+
+```bash
+# For ACL client
+npm run test:acl:webmodule
+npm run test:acl:webbundle
+```
+
+

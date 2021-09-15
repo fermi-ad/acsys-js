@@ -23,6 +23,7 @@
     ],
     "devDependencies": {
         "chai": "^4.3.4",
+        "http-server": "^13.0.2",
         "mocha": "^9.1.1",
         "parcel-bundler": "^1.12.5",
         "shx": "^0.3.3",
@@ -34,7 +35,11 @@
         "postinstall": "subpkg install",
         "bundle": "parcel build main.ts -o dist/bundle.js --global acsys",
         "build": "subpkg run build && tsc",
-        "test": "mocha --no-timeouts test/**"
+        "test": "mocha --no-timeouts test/**",
+        "test:dpm:webmodule": "parcel test/dpm/moduleTest.html",
+        "test:dpm:webbundle": "shx cp dist/bundle.* test/dpm/ && http-server test/dpm -o bundleTest.html",
+        "test:acl:webmodule": "parcel test/acl/moduleTest.html",
+        "test:acl:webbundle": "shx cp dist/bundle.* test/acl/ && http-server test/acl -o bundleTest.html"
     },
     "repository": {
         "type": "git",
