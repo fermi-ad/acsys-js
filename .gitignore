@@ -6,7 +6,4 @@ dist
 *.tgz
 .cache
 .parcel-cache
-test/acl/bundle.js
-test/acl/bundle.js.map
-test/dpm/bundle.js
-test/dpm/bundle.js.map
+test/**/bundle.js*

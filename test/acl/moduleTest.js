@@ -1,26 +1,14 @@
 import { ACL } from "@fnal/acsys";
 import 'regenerator-runtime/runtime';
-let content = {};
 
-//const reqQuery = "G:AMANDA@P,30000<-LOGGERDURATION:3600000";
-const reqQuery = "M:OUTTMP";
-let acl;
-
-// after load
-window.addEventListener('load', () => {
-    console.log('Index loaded!');
-    content = document.getElementById('content');
-    content.innerHTML += '<p>Document loaded</p>';
-    createACL();
-    
-    document.getElementById('startbtn').addEventListener('click', start);
-});
+// where the results will be displayed
+let content = document.getElementById('content');
 
 /**
  * Create new ACL client
  */
-function createACL() {
-    acl = new ACL();
+ function createACL() {
+    let acl = new ACL();
     acl.con.notifyOnConnect(async(handle) => {
         try {
             console.log("Handle:", handle);
@@ -31,23 +19,15 @@ function createACL() {
             console.error(error);
         }
     });
+    return acl;
 }
 
-async function start() {
-    if (acl && acl.con.isConnected) {
-        let reply = await acl.run("READ m:outtmp");
-        onDataRead(reply)
-    } else {
-        console.log("Not connected");
-    }
-}
 
 /**
- * When data is read, display it in the html
- * @param {*} data 
- * @param {*} info 
+ * Displays reply on the page
+ * @param {ACL_reply} reply the reply
  */
-function onDataRead(reply) {
+ function displayReply(reply) {
     // show in console
     console.log(reply);
     let newDiv = `<hr></hr>`;
@@ -62,6 +42,22 @@ function onDataRead(reply) {
             newDiv += `<div>value: ${row.value}</div>`;
         }
     }
-    
     content.innerHTML += newDiv;
 }
+
+//const reqQuery = "READ G:AMANDA@P,30000<-LOGGERDURATION:3600000";
+const reqQuery = "READ M:OUTTMP";
+const acl = createACL();
+
+/**
+ * On start button
+ */
+document.getElementById('startbtn').addEventListener('click', async () => {
+    if (acl.con.isConnected) {
+        // request for reading
+        let reply = await acl.run(reqQuery);
+        displayReply(reply)
+    } else {
+        console.log("Not connected");
+    }
+});

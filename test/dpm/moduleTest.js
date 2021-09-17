@@ -1,63 +1,26 @@
 import { DPM } from '@fnal/acsys';
-let content = {};
-
-//const reqQuery = "G:AMANDA@P,30000<-LOGGERDURATION:3600000";
-const reqQuery = "M:OUTTMP";
-let dpm;
-
-// after load
-window.addEventListener('load', () => {
-    console.log('Index loaded!');
-    content = document.getElementById('content');
-    content.innerHTML += '<p>Document loaded</p>';
-    createDPM();
-    
-    document.getElementById('startbtn').addEventListener('click', start);
-    document.getElementById('stopbtn').addEventListener('click', stop);
-});
+// where the results will be displayed
+let content = document.getElementById('content');
 
 /**
- * Create new DPM client
+ * On error callback
+ * @param {*} error 
  */
-function createDPM() {
-    dpm = new DPM();
-    dpm.addRequest(reqQuery, onDataRead, onError).then(function(){
-        console.log('OK!');
-    }).catch(function(error){
-        console.error('ERROR!');
-        console.error(error);
-    }); 
-}
-
-function start() {
-    if (dpm) {
-        dpm.start();
-        console.log('Started!');
-    }
-}
-
-function stop() {
-    if (dpm) {
-        dpm.stop();
-        console.log('Stopped!');
-    }
-}
-
-function onError(error){
+function onError(error) {
     console.error('ERROR-!');
     console.error(error);
 }
 
 /**
- * When data is read, display it in the html
- * @param {*} data 
- * @param {*} info 
+ * When data is read (callback), display it in the html
+ * @param {DPM_Replies} data 
+ * @param {DPM_reply_DeviceInfo} info 
  */
 function onDataRead(data, info) {
     // show in console
     console.log(data, info);
     let newDiv = `<hr></hr>`;
-    if (info){
+    if (info) {
         newDiv += `<div>Ref Id: ${info.ref_id}</div>`;
         newDiv += `<div>DI: ${info.di}</div>`;
         newDiv += `<div>name: ${info.name}</div>`;
@@ -94,3 +57,33 @@ function onDataRead(data, info) {
     }
     content.innerHTML += newDiv;
 }
+
+/**
+ * Create new DPM client
+ * @param {string} reqQuery the Query
+ */
+function createDPM(reqQuery) {
+    let dpm = new DPM();
+    dpm.addRequest(reqQuery, onDataRead, onError).then(function () {
+        console.log('OK!');
+    }).catch(function (error) {
+        console.error('ERROR!');
+        console.error(error);
+    });
+    return dpm;
+}
+
+//const reqQuery = "G:AMANDA@P,30000<-LOGGERDURATION:3600000";
+const reqQuery = "M:OUTTMP";
+const dpm = createDPM(reqQuery);
+
+// start and stop buttons
+document.getElementById('startbtn').addEventListener('click', () => {
+    dpm.start();
+    console.log('Started!');
+});
+
+document.getElementById('stopbtn').addEventListener('click', () => {
+    dpm.stop();
+    console.log('Stopped!');
+});
