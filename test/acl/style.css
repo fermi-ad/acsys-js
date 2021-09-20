@@ -70,16 +70,12 @@ hr {
     border-width: 0px 0px 1px 0px;
 }
 
-.page {
+main {
     width: 98%;
     background-color: #fff;
     margin: 20px auto 0px auto;
     border: 1px solid #496077;
     border-radius: 5px;
-}
-
-main {
     padding: 0px 12px;
-    margin: 12px 8px 8px 8px;
     min-height: 420px;
 }

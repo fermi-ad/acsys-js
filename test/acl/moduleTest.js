@@ -2,7 +2,7 @@ import { ACL } from "@fnal/acsys";
 import 'regenerator-runtime/runtime';
 
 // where the results will be displayed
-let content = document.getElementById('content');
+let replyDiv = document.getElementById('reply');
 
 /**
  * Create new ACL client
@@ -12,7 +12,7 @@ let content = document.getElementById('content');
     acl.con.notifyOnConnect(async(handle) => {
         try {
             console.log("Handle:", handle);
-            content.innerHTML += '<p>Client connected</p>';
+            replyDiv.innerHTML += '<p>Client connected</p>';
         }
         catch (error) {
             console.log("ERROR!!!!");
@@ -42,7 +42,7 @@ let content = document.getElementById('content');
             newDiv += `<div>value: ${row.value}</div>`;
         }
     }
-    content.innerHTML += newDiv;
+    replyDiv.innerHTML += newDiv;
 }
 
 //const reqQuery = "READ G:AMANDA@P,30000<-LOGGERDURATION:3600000";

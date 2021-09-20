@@ -2,7 +2,7 @@
 const DPM = acsys.DPM;
 
 // where the results will be displayed
-let content = document.getElementById('content');
+let replyDiv = document.getElementById('reply');
 
 /**
  * On error callback
@@ -57,7 +57,7 @@ function onDataRead(data, info) {
             }
         }
     }
-    content.innerHTML += newDiv;
+    replyDiv.innerHTML += newDiv;
 }
 
 /**
