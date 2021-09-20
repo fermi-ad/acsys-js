@@ -2,7 +2,6 @@
 
 `ACSys` is the interface to Fermilab data acquisition and control.
 
-
 ## Installing
 
 `ACSys` is available via a Fermi hosted npm repository.
@@ -11,10 +10,9 @@
 npm install --registry http://adrfads.fnal.gov:4873 @fnal/acsys
 ```
 
-
 ## DPM Client Usage
 
-### From Node.js
+### DPM - From Node.js
 
 ```javascript
 import {DPM} from '@fnal/acsys';
@@ -32,15 +30,14 @@ dpm.addRequest(`M:OUTTMP`,
 dpm.start();
 ```
 
-
-### From Browser 
+### DPM - From Browser
 
 You can use this library from the browser either by:
+
 - Using a node-like module package for the browser, in your project, or.
 - Linking to the bundled version.
 
-
-### Using as a module from browser
+#### DPM - Using as a module from browser
 
 You can use browser resolution when building a `React` front-end application, or by using a library like `parcel` or `browserify` in your project.
 
@@ -76,10 +73,9 @@ And from your HTML files.
 </head>
 ```
 
-* **Note** this option is recommended since it allows IDEs like VS Code to resolve dependencies and let's you use intelli-sense code completion.
+- **Note** this option is recommended since it allows IDEs like VS Code to resolve dependencies and let's you use intelli-sense code completion.
 
-
-### Using the Bundled Version
+#### DPM - Using the Bundled Version
 
 Add the `bundle.js` script in your html, and use the global variable `acsys`:
 
@@ -101,13 +97,11 @@ const dpm = new DPM();
 </script>
 ```
 
-
 ## ACL Client Usage
 
 You can also use `ACL` client library in the same ways as the `DPM` client library.
 
-
-### From Node.js
+### ACL - From Node.js
 
 ```javascript
 import {ACL} from '@fnal/acsys';
@@ -124,8 +118,7 @@ acl.con.notifyOnConnect(async (handle) => {
 });
 ```
 
-
-### Using as a module from browser
+### ACL - Using as a module from browser
 
 ```bash
 npm install --registry http://adrfads.fnal.gov:4873 @fnal/acsys
@@ -149,8 +142,7 @@ acl.con.notifyOnConnect(async (handle) => {
 });
 ```
 
-
-### Using the Bundled Version
+#### ACL - Using the Bundled Version
 
 Add the `bundle.js` script and use the global variable `acsys`:
 
@@ -173,7 +165,6 @@ acl.con.notifyOnConnect(async (handle) => {
 </script>
 ```
 
-
 ## Building
 
 To install dependencies on all subpackages run:
@@ -194,4 +185,28 @@ To generate a bundle using `parcel`, run:
 
 ```bash
 npm run bundle
+```
+
+## Testing
+
+To run unit tests, using `mocha` and `chai`:
+
+```bash
+npm run test
+```
+
+### Browser Testing
+
+You can test on the browser as either module or bundle by running any of these commands:
+
+```bash
+# For DPM client
+npm run test:dpm:webmodule
+npm run test:dpm:webbundle
+```
+
+```bash
+# For ACL client
+npm run test:acl:webmodule
+npm run test:acl:webbundle
 ```

@@ -6,3 +6,4 @@ dist
 *.tgz
 .cache
 .parcel-cache
+test/**/bundle.js*

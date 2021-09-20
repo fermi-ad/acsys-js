@@ -1,0 +1,14 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fnal/acsys": "file:../"
+  },
+  "type": "module",
+  "devDependencies": {
+    "regenerator-runtime": "^0.13.9"
+  }
+}
