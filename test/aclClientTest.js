@@ -12,15 +12,17 @@ describe('ACL Client - Test', () => {
         assert.isNotNull(acl);
     });
 
+    /*
     it('Connect', (done) => {
         acl.con.notifyOnConnect((handle) => {
             assert.isDefined(handle);
             done();
         });
     })
-
+    */
     it('Basic read - M:OUTTMP', (done) => {
         acl.con.notifyOnConnect(async (handle) => {
+            assert.isDefined(handle);
             try {
                 let reply = await acl.run("read M:OUTTMP");
                 assert.isNotNull(reply);
@@ -31,12 +33,11 @@ describe('ACL Client - Test', () => {
                 assert.fail(error);
             }
         });
-        
     }); 
 
     after(() => {
         // TODO finish acl sub-threads
-       process.exit(0);
+        // process.exit(0);
     });
 
 });

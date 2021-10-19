@@ -195,6 +195,13 @@ To run unit tests, using `mocha` and `chai`:
 npm run test
 ```
 
+You can run unit tests on DPM or ACL clients only
+
+```bash
+npm run test:dpm
+npm run test:acl
+```
+
 ### Browser Testing
 
 You can test on the browser as either module or bundle by running any of these commands:

@@ -1,6 +1,6 @@
 import { assert } from 'chai';
-import {} from 'mocha';
-import {DPM} from '../dist/main.js';
+import { } from 'mocha';
+import { DPM } from '../dist/main.js';
 
 describe('DPM Client - Test', () => {
     let dpm;
@@ -13,14 +13,14 @@ describe('DPM Client - Test', () => {
     });
 
     it('Basic read - M:OUTTMP', (done) => {
-        dpm.addRequest("M:OUTTMP", function(data, info){
+        dpm.addRequest("M:OUTTMP", function (data, info) {
             assert.isNotNull(data);
             assert.isDefined(data);
             assert.isNotNull(info);
             assert.isDefined(info);
             dpm.stop();
             done();
-        }, function(error){
+        }, function (error) {
             assert.fail(error);
         });
         dpm.start();
@@ -30,7 +30,8 @@ describe('DPM Client - Test', () => {
 
     after(() => {
         // TODO finish DPM sub-threads
-        process.exit(0);
+        console.log('Finished!');
+        //process.exit(0);
     });
 
 });

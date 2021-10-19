@@ -5,6 +5,7 @@
         "allowJs": true,
         "strict": true,
         "declaration": true,
+        "sourceMap": true,
         "outDir": "dist",
         "declarationDir": "dist",
         "lib": ["dom", "es2018", "es2018.asynciterable"],
