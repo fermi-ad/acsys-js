@@ -27,14 +27,12 @@
         "mocha": "^9.1.1",
         "parcel-bundler": "^1.12.5",
         "shx": "^0.3.3",
-        "subpackage": "^1.1.0",
         "typescript": "^4.3.5"
     },
     "scripts": {
-        "clean": "subpkg run clean && shx rm -rf ./dist",
-        "postinstall": "subpkg install",
-        "bundle": "parcel build main.ts -o dist/bundle.js --global acsys",
-        "build": "subpkg run build && tsc",
+        "clean": "npm run clean -ws && shx rm -rf ./dist",
+        "build": "npm run build -ws && tsc",
+        "bundle": "parcel build main.ts -o dist/bundle.js --global acsys", 
         "test": "mocha --no-timeouts test/*.js",
         "test:acl": "mocha --no-timeouts test/aclClientTest.js",
         "test:dpm": "mocha --no-timeouts test/dpmClientTest.js",
@@ -53,11 +51,14 @@
     "keywords": [],
     "author": "Beau Harrison <beau@fnal.gov>",
     "contributors": [
-        {
-            "name": "Julian Badillo",
-            "email": "jbadillo@fnal.gov"
-        }
+        "Julian Badillo <jbadillo@fnal.gov>"
     ],
-    "license": "UNLICENSED",
-    "type": "module"
+    "license": "MIT",
+    "type": "module",
+    "workspaces": [
+        "proto_lib",
+        "acnet",
+        "acl",
+        "dpm"
+    ]
 }

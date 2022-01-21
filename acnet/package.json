@@ -1,55 +1,49 @@
 {
-    "name": "@fnal/acnet",
-    "version": "2.3.0",
-    "description": "The ACNET service takes a message and bundles it into the ACNET protocol.",
-    "main": "dist/acnet.js",
-    "module": "dist/acnet.js",
-    "browser": "dist/acnet.js",
-    "types": "dist/acnet.d.ts",
-    "scripts": {
-        "build": "tsc",
-        "clean": "shx rm -r dist",
-        "staticPush": "npm run build && node staticPush.js"
-    },
-    "files": [
-        "dist"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "ssh://p-acnetd@cdcvs.fnal.gov/cvs/projects/acnetd-js"
-    },
-    "publishConfig": {
-        "registry": "http://adrfads.fnal.gov:4873"
-    },
-    "keywords": [
-        "ACNET",
-        "communication"
-    ],
-    "author": "Beau Harrison <beau@fnal.gov>",
-    "contributors": [
-        {
-            "name": "Beau Harrison",
-            "email": "beau@fnal.gov"
-        },
-        {
-            "name": "Rich Neswold",
-            "email": "neswold@fnal.gov"
-        },
-        {
-            "name": "Julian Badillo",
-            "email": "jbadillo@fnal.gov"
-        }
-    ],
-    "license": "UNLICENSED",
-    "dependencies": {
-        "@types/events": "^3.0.0",
-        "@types/ws": "^7.4.7",
-        "isomorphic-ws": "^4.0.1",
-        "ws": "^7.5.3"
-    },
-    "devDependencies": {
-        "shx": "^0.3.3",
-        "typescript": "^4.3.5"
-    },
-    "type": "module"
+  "name": "@fnal/acnet",
+  "version": "2.3.0",
+  "description": "The ACNET service takes a message and bundles it into the ACNET protocol.",
+  "main": "dist/acnet.js",
+  "module": "dist/acnet.js",
+  "browser": "dist/acnet.js",
+  "types": "dist/acnet.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "shx rm -r dist",
+    "staticPush": "npm run build && node staticPush.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "ssh://p-acnetd@cdcvs.fnal.gov/cvs/projects/acnetd-js"
+  },
+  "publishConfig": {
+    "registry": "http://adrfads.fnal.gov:4873"
+  },
+  "keywords": [
+    "ACNET",
+    "communication"
+  ],
+  "author": "Beau Harrison <beau@fnal.gov>",
+  "contributors": [
+    "Beau Harrison <beau@fnal.gov>",
+    "Rich Neswold <neswold@fnal.gov>",
+    "Julian Badillo <jbadillo@fnal.gov>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@types/events": "^3.0.0",
+    "@types/ws": "^7.4.7",
+    "isomorphic-ws": "^4.0.1",
+    "ws": "^7.5.3"
+  },
+  "devDependencies": {
+    "shx": "^0.3.3",
+    "typescript": "^4.3.5"
+  },
+  "type": "module",
+  "directories": {
+    "test": "tests"
+  }
 }
