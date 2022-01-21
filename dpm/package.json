@@ -1,51 +1,42 @@
 {
-    "name": "@fnal/dpm-client",
-    "version": "2.4.0",
-    "description": "Provides client access to DPM",
-    "main": "dist/dpm.js",
-    "types": "dist/dpm.d.ts",
-    "scripts": {
-        "build": "tsc",
-        "build:proto": "node build.js",
-        "clean": "shx rm -rf ./dist"
-    },
-    "files": [
-        "dist"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "ssh://p-acsys-dpm@cdcvs.fnal.gov/cvs/projects/acsys-dpm-js"
-    },
-    "publishConfig": {
-        "registry": "http://adrfads.fnal.gov:4873"
-    },
-    "keywords": [
-        "DPM",
-        "ACNET"
-    ],
-    "author": "Rich Neswold",
-    "contributors": [
-        {
-            "name": "Beau Harrison",
-            "email": "beau@fnal.gov"
-        },
-        {
-            "name": "Rich Neswold",
-            "email": "neswold@fnal.gov"
-        },
-        {
-            "name": "Julian Badillo",
-            "email": "jbadillo@fnal.gov"
-        }
-    ],
-    "license": "UNLICENSED",
-    "dependencies": {
-        "@fnal/acnet": "file:../acnet",
-        "@fnal/proto_lib": "file:../proto_lib"
-    },
-    "devDependencies": {
-        "shx": "^0.3.3",
-        "typescript": "^4.3.5"
-    },
-    "type": "module"
+  "name": "@fnal/dpm-client",
+  "version": "2.4.0",
+  "description": "Provides client access to DPM",
+  "main": "dist/dpm.js",
+  "types": "dist/dpm.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:proto": "node build.js",
+    "clean": "shx rm -rf ./dist"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "ssh://p-acsys-dpm@cdcvs.fnal.gov/cvs/projects/acsys-dpm-js"
+  },
+  "publishConfig": {
+    "registry": "http://adrfads.fnal.gov:4873"
+  },
+  "keywords": [
+    "DPM",
+    "ACNET"
+  ],
+  "author": "Rich Neswold",
+  "contributors": [
+    "Beau Harrison <beau@fnal.gov>",
+    "Rich Neswold <neswold@fnal.gov>",
+    "Julian Badillo <jbadillo@fnal.gov>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@fnal/acnet": "file:../acnet",
+    "@fnal/proto_lib": "file:../proto_lib"
+  },
+  "devDependencies": {
+    "shx": "^0.3.3",
+    "typescript": "^4.3.5"
+  },
+  "type": "module"
 }

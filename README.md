@@ -4,7 +4,7 @@
 
 ## Installing
 
-`ACSys` is available via a Fermi hosted npm repository.
+`ACSys` is available via a Fermi hosted npm repository, you can include it in your Node.js project:
 
 ```bash
 npm install --registry http://adrfads.fnal.gov:4873 @fnal/acsys
@@ -167,15 +167,23 @@ acl.con.notifyOnConnect(async (handle) => {
 
 ## Building
 
-To install dependencies on all subpackages run:
+Download source code:
 
 ```bash
-npm run postinstall
+git clone https://github.com/fermi-controls/acsys-js.git
 ```
 
-Is the equivalent of doing `npm install` on each subpackage. This command depends on `subpackage`.
+The code is structured using [NPM workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
+To install dependencies on all subpackages (workspaces) run:
 
-To build all sub-packages and main package:
+```bash
+cd acsys-js
+npm run i -ws
+```
+
+It's the equivalent of doing `npm install` on each subpackage.
+
+To build all subpackages and main package:
 
 ```bash
 npm run build
@@ -217,3 +225,5 @@ npm run test:dpm:webbundle
 npm run test:acl:webmodule
 npm run test:acl:webbundle
 ```
+
+These should open a browser where you can test the client library.
