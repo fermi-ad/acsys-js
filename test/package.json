@@ -9,6 +9,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "babel-core": "^6.26.3",
     "regenerator-runtime": "^0.13.9"
   }
 }

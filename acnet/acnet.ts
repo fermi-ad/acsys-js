@@ -138,7 +138,7 @@ function splitAddr(a: string) {
 // Returns the Fermilab URL that proxies our WebSockets.
 
 function getHost() {
-    return "wss://www-bd.fnal.gov/acnet-ws";
+    return "ws://acsys-proxy.fnal.gov:6805/acnet";
 }
 
 // Defines a type, Reply<T>, which describes the data returned in an ACNET reply

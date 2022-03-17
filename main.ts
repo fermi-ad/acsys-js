@@ -1,5 +1,7 @@
-import { DPM } from '@fnal/dpm-client';
+import { DPM, DPMConnection } from '@fnal/dpm-client';
 import { ACL } from '@fnal/acl';
 export {
-  DPM, ACL
+  ACL,
+  DPM,
+  DPMConnection
 };

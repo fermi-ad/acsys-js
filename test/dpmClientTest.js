@@ -1,11 +1,13 @@
 import { assert } from 'chai';
-import { } from 'mocha';
-import { DPM } from '../dist/main.js';
+import {} from 'mocha';
+import {DPM, DPMConnection} from '../dist/main.js';
 
 describe('DPM Client - Test', () => {
     let dpm;
+    const con = new DPMConnection({port: 6805});
+
     before(() => {
-        dpm = new DPM();
+        dpm = new DPM(undefined, con);
     });
 
     it('Instantiate dpm client', () => {
